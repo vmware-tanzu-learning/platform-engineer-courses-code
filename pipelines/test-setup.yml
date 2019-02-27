@@ -1,0 +1,50 @@
+---
+resource_types:
+- name: azure-blobstore
+  type: docker-image
+  source:
+    repository: pcfabr/azure-blobstore-resource
+
+resources:
+- name: platform-automation-tasks
+  type: azure-blobstore
+  source:
+    storage_account_name: ((storage_account_name))
+    storage_account_key: ((storage_account_key))
+    container: ((container))
+    regexp: platform-automation-tasks-(.*).zip
+
+- name: platform-automation-image
+  type: azure-blobstore
+  source:
+    storage_account_name: ((storage_account_name))
+    storage_account_key: ((storage_account_key))
+    container: ((container))
+    regexp: platform-automation-image-(.*).tgz
+
+jobs:
+- name: test-resources
+  plan:
+  - aggregate:
+    - get: platform-automation-tasks
+      params:
+        unpack: true
+    - get: platform-automation-image
+      params:
+        unpack: true
+  - task: unpack-tgz-image-shim
+    config:
+      platform: linux
+      inputs:
+      - name: platform-automation-image
+      run:
+        path: /bin/sh
+        args:
+        - -c
+        - |
+          tar -xf platform-automation-image/platform-automation-image-*.tar --directory unpacked-image
+      outputs:
+      - name: unpacked-image
+  - task: test-resources
+    image: unpacked-image
+    file: platform-automation-tasks/tasks/test.yml
