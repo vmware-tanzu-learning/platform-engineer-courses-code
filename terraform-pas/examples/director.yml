@@ -1,0 +1,44 @@
+---
+properties-configuration:
+  director_configuration:
+    ntp_servers_string: us.pool.ntp.org
+  iaas_configuration:
+    bosh_storage_account_name: esuezpasdirector
+    client_id: ((client_id))
+    client_secret: ((client_secret))
+    resource_group_name: esuezpas
+    ssh_private_key: ((ssh_private_key.private_key))
+    ssh_public_key: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC1XmGJBo0+C4lNKHmCGaEtdE+k/XDOsO+ozobwLlj1EIlYtKnt6rTzbC9tMUA0RtHKEyXpmX56dHz/IbQq/BGEem8TytCavJ78O03Rzx0opc9g9HojSlJo5X5btij6xljLKRAgbJVtYLvvDgwZ1gX9YjadxC6vHUXwLQVkoS3jXB69fDPOxZghl3463YSPpmV4HTWeMp9FDbWeQ40Qec+dx03dS/r3qblHVt2zLHwexxLD0yxA4RKbo4nE89PXZjyVMfp/vvduUAk0W86eQx7ikqvYAs5Ep1QE/qRUDvQNGO46lgbi7zebpOP0rR/RtPTBZNC3eAlgsFvxWXuXhPJ5ZFK1K60cQRaNk1vnR2F1dMQUgx5I0he4dvfXM/NzRif/SNvMc4clDcHl7lc704aspMNMOQQ68tUhMqTEQZh36VgInXLiGVKIfop5+tEjpP5aT7kKvUQupX1FICiEI8eFQzfmTkAd3jhT3fBYz0RJF1Hhd58wSFy8/okFXhkHQhcmsHQUZrAQHvXHEPFyl57DDwGH/Olijwm8JNb5bZ/9bNmHTrtPwDr3ALSh4RtDIMArqUnhTQvgmz9eLRmlOccuiUgLH9X6R77y7W1qLEaVs6hb1ofzZh7IBWdJ7Bfi6OEiHKPs4tdOkgQLPyup4zZdQyGt22I37V4KfmyY1mTvXQ==
+    subscription_id: ((subscription_id))
+    tenant_id: ((tenant_id))
+network-assignment:
+  network:
+    name: esuezpas-infrastructure-subnet
+networks-configuration:
+  icmp_checks_enabled: false
+  networks:
+  - name: esuezpas-infrastructure-subnet
+    subnets:
+    - cidr: 10.0.8.0/26
+      dns: 168.63.129.16
+      gateway: 10.0.8.1
+      iaas_identifier: esuezpas-virtual-network/esuezpas-infrastructure-subnet
+      reserved_ip_ranges: 10.0.8.0-10.0.8.5
+  - name: esuezpas-pas-subnet
+    subnets:
+    - cidr: 10.0.0.0/22
+      dns: 168.63.129.16
+      gateway: 10.0.0.1
+      iaas_identifier: esuezpas-virtual-network/esuezpas-pas-subnet
+      reserved_ip_ranges: 10.0.0.0-10.0.0.5
+  - name: esuezpas-services-subnet
+    subnets:
+    - cidr: 10.0.4.0/22
+      dns: 168.63.129.16
+      gateway: 10.0.4.1
+      iaas_identifier: esuezpas-virtual-network/esuezpas-services-subnet
+      reserved_ip_ranges: 10.0.4.0-10.0.4.5
+resource-configuration:
+  compilation:
+    instance_type:
+      id: automatic
