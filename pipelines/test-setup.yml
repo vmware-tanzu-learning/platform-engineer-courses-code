@@ -20,7 +20,7 @@ resources:
     storage_account_name: ((storage_account_name))
     storage_account_key: ((storage_account_key))
     container: ((container))
-    regexp: platform-automation-image-(.*).tgz
+    regexp: platform-automation-image-(.*).tar
 
 jobs:
 - name: test-resources
@@ -32,19 +32,6 @@ jobs:
     - get: platform-automation-image
       params:
         unpack: true
-  - task: unpack-tgz-image-shim
-    config:
-      platform: linux
-      inputs:
-      - name: platform-automation-image
-      run:
-        path: /bin/sh
-        args:
-        - -c
-        - |
-          tar -xf platform-automation-image/platform-automation-image-*.tar --directory unpacked-image
-      outputs:
-      - name: unpacked-image
   - task: test-resources
-    image: unpacked-image
+    image: platform-automation-image
     file: platform-automation-tasks/tasks/test.yml
