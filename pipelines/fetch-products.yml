@@ -104,21 +104,8 @@ jobs:
       params:
         unpack: true
     - get: config
-  - task: unpack-tgz-image-shim
-    config:
-      platform: linux
-      inputs:
-      - name: platform-automation-image
-      run:
-        path: /bin/sh
-        args:
-        - -c
-        - |
-          tar -xf platform-automation-image/platform-automation-image-*.tar --directory unpacked-image
-      outputs:
-      - name: unpacked-image
   - task: credhub-interpolate
-    image: unpacked-image
+    image: platform-automation-image
     file: platform-automation-tasks/tasks/credhub-interpolate.yml
     params:
       CREDHUB_CLIENT: ((credhub-client))
@@ -132,7 +119,7 @@ jobs:
     output_mapping:
       interpolated-files: config
   - task: download-healthwatch-product-and-stemcell
-    image: unpacked-image
+    image: platform-automation-image
     file: platform-automation-tasks/tasks/download-product.yml
     params:
       CONFIG_FILE: download-product-configs/healthwatch.yml
@@ -157,21 +144,8 @@ jobs:
       params:
         unpack: true
     - get: config
-  - task: unpack-tgz-image-shim
-    config:
-      platform: linux
-      inputs:
-      - name: platform-automation-image
-      run:
-        path: /bin/sh
-        args:
-        - -c
-        - |
-          tar -xf platform-automation-image/platform-automation-image-*.tar --directory unpacked-image
-      outputs:
-      - name: unpacked-image
   - task: credhub-interpolate
-    image: unpacked-image
+    image: platform-automation-image
     file: platform-automation-tasks/tasks/credhub-interpolate.yml
     params:
       CREDHUB_CLIENT: ((credhub-client))
@@ -185,7 +159,7 @@ jobs:
     output_mapping:
       interpolated-files: config
   - task: download-opsman-image
-    image: unpacked-image
+    image: platform-automation-image
     file: platform-automation-tasks/tasks/download-product.yml
     params:
       CONFIG_FILE: download-product-configs/opsman.yml
@@ -206,21 +180,8 @@ jobs:
       params:
         unpack: true
     - get: config
-  - task: unpack-tgz-image-shim
-    config:
-      platform: linux
-      inputs:
-      - name: platform-automation-image
-      run:
-        path: /bin/sh
-        args:
-        - -c
-        - |
-          tar -xf platform-automation-image/platform-automation-image-*.tar --directory unpacked-image
-      outputs:
-      - name: unpacked-image
   - task: credhub-interpolate
-    image: unpacked-image
+    image: platform-automation-image
     file: platform-automation-tasks/tasks/credhub-interpolate.yml
     params:
       CREDHUB_CLIENT: ((credhub-client))
@@ -234,7 +195,7 @@ jobs:
     output_mapping:
       interpolated-files: config
   - task: download-pas-product-and-stemcell
-    image: unpacked-image
+    image: platform-automation-image
     file: platform-automation-tasks/tasks/download-product.yml
     params:
       CONFIG_FILE: download-product-configs/pas.yml
