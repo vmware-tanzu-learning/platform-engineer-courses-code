@@ -20,7 +20,7 @@ resources:
     storage_account_name: ((storage_account_name))
     storage_account_key: ((storage_account_key))
     container: ((container))
-    regexp: platform-automation-image-(.*).tar
+    regexp: platform-automation-image-(.*).tgz
 
 jobs:
 - name: test-resources
