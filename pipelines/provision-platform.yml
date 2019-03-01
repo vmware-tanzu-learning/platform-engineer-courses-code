@@ -70,21 +70,8 @@ jobs:
               unpack: true
           - get: opsman-image
           - get: configuration
-      - task: unpack-tgz-image-shim
-        config:
-          platform: linux
-          inputs:
-          - name: platform-automation-image
-          run:
-            path: /bin/sh
-            args:
-            - -c
-            - |
-              tar -xf platform-automation-image/platform-automation-image-*.tar --directory unpacked-image
-          outputs:
-          - name: unpacked-image
       - task: credhub-interpolate
-        image: unpacked-image
+        image: platform-automation-image
         file: platform-automation-tasks/tasks/credhub-interpolate.yml
         params:
           CREDHUB_CLIENT: ((credhub-client))
@@ -98,7 +85,7 @@ jobs:
         output_mapping:
           interpolated-files: interpolated-config
       - task: create-vm
-        image: unpacked-image
+        image: platform-automation-image
         file: platform-automation-tasks/tasks/create-vm.yml
         input_mapping:
           image: opsman-image
@@ -110,7 +97,7 @@ jobs:
         ensure: &make-state-commit
           do:
             - task: make-commit
-              image: unpacked-image
+              image: platform-automation-image
               file: platform-automation-tasks/tasks/make-git-commit.yml
               input_mapping:
                 repository: configuration
@@ -128,7 +115,7 @@ jobs:
                 repository: configuration-commit
                 merge: true
       - task: configure-authentication
-        image: unpacked-image
+        image: platform-automation-image
         file: platform-automation-tasks/tasks/configure-authentication.yml
         attempts: 10
         input_mapping:
@@ -138,7 +125,7 @@ jobs:
           ENV_FILE: ((foundation))/env/env.yml
           AUTH_CONFIG_FILE: ((foundation))/config/auth.yml
       - task: configure-director
-        image: unpacked-image
+        image: platform-automation-image
         file: platform-automation-tasks/tasks/configure-director.yml
         input_mapping:
           config: interpolated-config
@@ -147,7 +134,7 @@ jobs:
           ENV_FILE: ((foundation))/env/env.yml
           DIRECTOR_CONFIG_FILE: ((foundation))/config/director.yml
       - task: apply-director-changes
-        image: unpacked-image
+        image: platform-automation-image
         file: platform-automation-tasks/tasks/apply-director-changes.yml
         input_mapping:
           env: interpolated-config
@@ -163,21 +150,8 @@ jobs:
           - get: platform-automation-image
             params: {unpack: true}
           - get: configuration
-      - task: unpack-tgz-image-shim
-        config:
-          platform: linux
-          inputs:
-          - name: platform-automation-image
-          run:
-            path: /bin/sh
-            args:
-            - -c
-            - |
-              tar -xf platform-automation-image/platform-automation-image-*.tar --directory unpacked-image
-          outputs:
-          - name: unpacked-image
       - task: credhub-interpolate
-        image: unpacked-image
+        image: platform-automation-image
         file: platform-automation-tasks/tasks/credhub-interpolate.yml
         params:
           CREDHUB_CLIENT: ((credhub-client))
@@ -191,7 +165,7 @@ jobs:
         output_mapping:
           interpolated-files: interpolated-config
       - task: staged-director-config
-        image: unpacked-image
+        image: platform-automation-image
         file: platform-automation-tasks/tasks/staged-director-config.yml
         input_mapping:
           env: interpolated-config
@@ -211,21 +185,8 @@ jobs:
             params:
               unpack: true
           - get: configuration
-      - task: unpack-tgz-image-shim
-        config:
-          platform: linux
-          inputs:
-          - name: platform-automation-image
-          run:
-            path: /bin/sh
-            args:
-            - -c
-            - |
-              tar -xf platform-automation-image/platform-automation-image-*.tar --directory unpacked-image
-          outputs:
-          - name: unpacked-image
       - task: credhub-interpolate
-        image: unpacked-image
+        image: platform-automation-image
         file: platform-automation-tasks/tasks/credhub-interpolate.yml
         params:
           CREDHUB_CLIENT: ((credhub-client))
@@ -239,7 +200,7 @@ jobs:
         output_mapping:
           interpolated-files: interpolated-config
       - task: export-installation
-        image: unpacked-image
+        image: platform-automation-image
         file: platform-automation-tasks/tasks/export-installation.yml
         input_mapping:
           env: interpolated-config
@@ -268,21 +229,8 @@ jobs:
           - get: installation
             passed: [ export-installation ]
           - get: configuration
-      - task: unpack-tgz-image-shim
-        config:
-          platform: linux
-          inputs:
-          - name: platform-automation-image
-          run:
-            path: /bin/sh
-            args:
-            - -c
-            - |
-              tar -xf platform-automation-image/platform-automation-image-*.tar --directory unpacked-image
-          outputs:
-          - name: unpacked-image
       - task: credhub-interpolate
-        image: unpacked-image
+        image: platform-automation-image
         file: platform-automation-tasks/tasks/credhub-interpolate.yml
         params:
           CREDHUB_CLIENT: ((credhub-client))
@@ -296,7 +244,7 @@ jobs:
         output_mapping:
           interpolated-files: interpolated-config
       - task: upgrade-opsman
-        image: unpacked-image
+        image: platform-automation-image
         file: platform-automation-tasks/tasks/upgrade-opsman.yml
         input_mapping:
           image: opsman-image
@@ -309,7 +257,7 @@ jobs:
           STATE_FILE: ((foundation))/state/state.yml
         ensure: *make-state-commit
       - task: apply-director-changes
-        image: unpacked-image
+        image: platform-automation-image
         file: platform-automation-tasks/tasks/apply-director-changes.yml
         input_mapping:
           env: interpolated-config
