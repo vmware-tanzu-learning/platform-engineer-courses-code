@@ -2,7 +2,7 @@
 opsman-configuration:
   azure:
     subscription_id: {{.subscription_id}}
-    resource_group_name: {{.pcf_resource_group_name}}
+    resource_group: {{.pcf_resource_group_name}}
     tenant_id: {{.tenant_id}}
     client_id: {{.client_id}}
     client_secret: {{.client_secret}}
