@@ -6,11 +6,11 @@ opsman-configuration:
     tenant_id: ((tenant_id))
     client_id: ((client_id))
     client_secret: ((client_secret))
-    location: southcentralus
+    location: southcentralus # may be different in your environment
     container: artifacts
     network_security_group: esuezpas-ops-manager-security-group # from ops_manager_security_group_name
     vpc_subnet: /subscriptions/((subscription_id))/resourceGroups/esuezpas/providers/Microsoft.Network/virtualNetworks/esuezpas-virtual-network/subnets/esuezpas-infrastructure-subnet
-    storage_account: palcourse # storage account for blobstore
+    storage_account: alphastore # storage account for blobstore
     storage_key: ((storage_account_key))
     ssh_public_key: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC1XmGJBo0+C4lNKHmCGaEtdE+k/XDOsO+ozobwLlj1EIlYtKnt6rTzbC9tMUA0RtHKEyXpmX56dHz/IbQq/BGEem8TytCavJ78O03Rzx0opc9g9HojSlJo5X5btij6xljLKRAgbJVtYLvvDgwZ1gX9YjadxC6vHUXwLQVkoS3jXB69fDPOxZghl3463YSPpmV4HTWeMp9FDbWeQ40Qec+dx03dS/r3qblHVt2zLHwexxLD0yxA4RKbo4nE89PXZjyVMfp/vvduUAk0W86eQx7ikqvYAs5Ep1QE/qRUDvQNGO46lgbi7zebpOP0rR/RtPTBZNC3eAlgsFvxWXuXhPJ5ZFK1K60cQRaNk1vnR2F1dMQUgx5I0he4dvfXM/NzRif/SNvMc4clDcHl7lc704aspMNMOQQ68tUhMqTEQZh36VgInXLiGVKIfop5+tEjpP5aT7kKvUQupX1FICiEI8eFQzfmTkAd3jhT3fBYz0RJF1Hhd58wSFy8/okFXhkHQhcmsHQUZrAQHvXHEPFyl57DDwGH/Olijwm8JNb5bZ/9bNmHTrtPwDr3ALSh4RtDIMArqUnhTQvgmz9eLRmlOccuiUgLH9X6R77y7W1qLEaVs6hb1ofzZh7IBWdJ7Bfi6OEiHKPs4tdOkgQLPyup4zZdQyGt22I37V4KfmyY1mTvXQ==
     vm_name: ops-manager-vm
