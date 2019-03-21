@@ -1,0 +1,34 @@
+resource_types:
+- name: gcs-resource
+  type: docker-image
+  source:
+    repository: frodenas/gcs-resource
+
+resources:
+- name: platform-automation-tasks
+  type: gcs-resource
+  source:
+    bucket: ((bucket))
+    json_key: ((json-key))
+    regexp: platform-automation-tasks-(.*).zip
+
+- name: platform-automation-image
+  type: gcs-resource
+  source:
+    bucket: ((bucket))
+    json_key: ((json-key))
+    regexp: platform-automation-image-(.*).tgz
+
+jobs:
+- name: test-resources
+  plan:
+  - aggregate:
+    - get: platform-automation-tasks
+      params:
+        unpack: true
+    - get: platform-automation-image
+      params:
+        unpack: true
+  - task: test-resources
+    image: platform-automation-image
+    file: platform-automation-tasks/tasks/test.yml
