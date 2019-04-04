@@ -1,0 +1,33 @@
+---
+credhub-client: concourse_to_credhub
+credhub-secret: SECRET
+credhub-server: https://CONCOURSE-URL:8844
+credhub-ca-cert: |
+    -----BEGIN CERTIFICATE-----
+    CERTXXXXX
+    ON-MULTIPLEXXX
+    INDENTED-LINESXXX
+    -----END CERTIFICATE-----
+bucket: GCP-BUCKET
+json-key: |
+  {
+    "type": "service_account",
+    "project_id": "GCP-PROJECT",
+    "private_key_id": "KEY-ID",
+    "private_key": "-----BEGIN PRIVATE KEY-----\nKEY-ON-ONE-LINE\n-----END PRIVATE KEY-----\n",
+    "client_email": "GCP-SERVICE-ACCOUNT@GCP-PROJECT.iam.gserviceaccount.com",
+    "client_id": "CLIENT-ID",
+    "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+    "token_uri": "https://oauth2.googleapis.com/token",
+    "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+    "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/pauls-cp-service-account%40pauls-project-1234.iam.gserviceaccount.com"
+  }
+pivnet_token: PIVNET-TOKEN
+configuration:
+  private_key: |
+    -----BEGIN OPENSSH PRIVATE KEY-----
+    CERTXXXXX
+    ON-MULTIPLEXXX
+    INDENTED-LINESXXX
+    -----END OPENSSH PRIVATE KEY-----
+  uri: git@github.com:GITHUB-ORG/CONFIG-REPO.git
