@@ -1,0 +1,1 @@
+fly -t vs set-team --team-name common --local-user admin

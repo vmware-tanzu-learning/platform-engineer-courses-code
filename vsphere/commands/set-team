@@ -1,1 +1,0 @@
-fly -t vs set-team --team-name sandbox --local-user admin
