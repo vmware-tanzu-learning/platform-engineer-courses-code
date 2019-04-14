@@ -1,0 +1,8 @@
+credentials:
+- name: /foundations/common/s3
+  type: json
+  value:
+    address: https://minio.controlplane.haas-<num>.pez.pivotal.io
+    access_key: <fill in>
+    secret_key: <fill in>
+    bucket_name: artifacts
