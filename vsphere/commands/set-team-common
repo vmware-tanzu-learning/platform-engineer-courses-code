@@ -1,1 +1,1 @@
-fly -t vs set-team --team-name common --local-user admin
+fly -t vc set-team --team-name common --local-user admin
