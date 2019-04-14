@@ -1,0 +1,353 @@
+resource_types:
+- name: pivnet
+  type: docker-image
+  source:
+    repository: pivotalcf/pivnet-resource
+    tag: latest-final
+
+resources:
+- name: daily
+  type: time
+  source:
+    interval: 24h
+
+- name: config
+  type: git
+  source:
+    private_key: ((git_deploy_key.private_key))
+    uri: ((git_uri))
+    branch: master
+    submodules: all
+    depth: 1
+
+- name: healthwatch-product
+  type: s3
+  source:
+    endpoint: ((s3_address))
+    access_key_id: ((s3_access_key))
+    bucket: ((s3_bucket_name))
+    secret_access_key: ((s3_secret_key))
+    skip_ssl_verification: true
+    regexp: p-healthwatch-(.*).pivotal
+
+- name: healthwatch-stemcell
+  type: s3
+  source:
+    endpoint: ((s3_address))
+    access_key_id: ((s3_access_key))
+    bucket: ((s3_bucket_name))
+    secret_access_key: ((s3_secret_key))
+    skip_ssl_verification: true
+    regexp: healthwatch-stemcell/bosh-stemcell-(.*)-vsphere-esxi-ubuntu-xenial-go_agent\.tgz
+
+- name: opsman-product
+  type: s3
+  source:
+    endpoint: ((s3_address))
+    access_key_id: ((s3_access_key))
+    bucket: ((s3_bucket_name))
+    secret_access_key: ((s3_secret_key))
+    skip_ssl_verification: true
+    regexp: pcf-vsphere-(.*).ova
+
+- name: pas-product
+  type: s3
+  source:
+    endpoint: ((s3_address))
+    access_key_id: ((s3_access_key))
+    bucket: ((s3_bucket_name))
+    secret_access_key: ((s3_secret_key))
+    skip_ssl_verification: true
+    regexp: srt-(.*).pivotal
+
+- name: pas-stemcell
+  type: s3
+  source:
+    endpoint: ((s3_address))
+    access_key_id: ((s3_access_key))
+    bucket: ((s3_bucket_name))
+    secret_access_key: ((s3_secret_key))
+    skip_ssl_verification: true
+    regexp: pas-stemcell/bosh-stemcell-(.*)-vsphere-esxi-ubuntu-xenial-go_agent\.tgz
+
+- name: platform-automation-pivnet
+  type: pivnet
+  source:
+    api_token: ((pivnet_token))
+    product_slug: platform-automation
+    product_version: 2\.(.*)
+    sort_by: semver
+
+- name: platform-automation-tasks
+  type: s3
+  source:
+    endpoint: ((s3.address))
+    access_key_id: ((s3.access_key))
+    bucket: ((s3.bucket_name))
+    secret_access_key: ((s3.secret_key))
+    skip_ssl_verification: true
+    regexp: platform-automation-tasks-(.*).zip
+
+#- name: platform-automation-tasks
+#  type: s3
+#  source:
+#    endpoint: ((s3_address))
+#    access_key_id: ((s3_access_key))
+#    bucket: ((s3_bucket_name))
+#    secret_access_key: ((s3_secret_key))
+#    skip_ssl_verification: true
+#    regexp: platform-automation-tasks-(.*).zip
+
+- name: platform-automation-image
+  type: s3
+  source:
+    endpoint: ((s3_address))
+    access_key_id: ((s3_access_key))
+    bucket: ((s3_bucket_name))
+    secret_access_key: ((s3_secret_key))
+    skip_ssl_verification: true
+    regexp: platform-automation-image-(.*).tgz
+
+- name: ncp-product
+  type: s3
+  source:
+    endpoint: ((s3_address))
+    access_key_id: ((s3_access_key))
+    bucket: ((s3_bucket_name))
+    secret_access_key: ((s3_secret_key))
+    skip_ssl_verification: true
+    regexp: VMware-NSX-(.*).pivotal
+
+- name: observability-store-product
+  type: s3
+  source:
+    endpoint: ((s3_address))
+    access_key_id: ((s3_access_key))
+    bucket: ((s3_bucket_name))
+    secret_access_key: ((s3_secret_key))
+    skip_ssl_verification: true
+    regexp: o11y-store-(.*).pivotal
+
+- name: observability-store-stemcell
+  type: s3
+  source:
+    endpoint: ((s3_address))
+    access_key_id: ((s3_access_key))
+    bucket: ((s3_bucket_name))
+    secret_access_key: ((s3_secret_key))
+    skip_ssl_verification: true
+    regexp: observability-store-stemcell/bosh-stemcell-(.*)-vsphere-esxi-ubuntu-xenial-go_agent\.tgz
+
+jobs:
+- name: fetch-healthwatch
+  plan:
+  - aggregate:
+    - get: daily
+      trigger: true
+    - get: platform-automation-image
+      params:
+        unpack: true
+    - get: platform-automation-tasks
+      params:
+        unpack: true
+    - get: config
+  - task: credhub-interpolate
+    image: platform-automation-image
+    file: platform-automation-tasks/tasks/credhub-interpolate.yml
+    params:
+      CREDHUB_CLIENT: ((credhub_client))
+      CREDHUB_SECRET: ((credhub_secret))
+      CREDHUB_SERVER: ((credhub_server))
+      CREDHUB_CA_CERT: ((credhub_ca_cert.certificate))
+      PREFIX: '/foundations/common'
+      INTERPOLATION_PATH: "download-product-configs"
+    input_mapping:
+      files: config
+    output_mapping:
+      interpolated-files: config
+  - task: download-healthwatch-product-and-stemcell
+    image: platform-automation-image
+    file: platform-automation-tasks/tasks/download-product.yml
+    params:
+      CONFIG_FILE: download-product-configs/healthwatch.yml
+    output_mapping: {downloaded-stemcell: healthwatch-stemcell}
+  - aggregate:
+    - put: healthwatch-product
+      get_params: {skip_download: "true"}
+      params:
+        file: downloaded-product/*.pivotal
+    - put: healthwatch-stemcell
+      get_params: {skip_download: "true"}
+      params:
+        file: healthwatch-stemcell/*.tgz
+
+- name: fetch-opsman
+  plan:
+  - aggregate:
+    - get: daily
+      trigger: true
+    - get: platform-automation-image
+      params:
+        unpack: true
+    - get: platform-automation-tasks
+      params:
+        unpack: true
+    - get: config
+  - task: credhub-interpolate
+    image: platform-automation-image
+    file: platform-automation-tasks/tasks/credhub-interpolate.yml
+    params:
+      CREDHUB_CLIENT: ((credhub_client))
+      CREDHUB_SECRET: ((credhub_secret))
+      CREDHUB_SERVER: ((credhub_server))
+      CREDHUB_CA_CERT: ((credhub_ca_cert.certificate))
+      PREFIX: '/foundations/common'
+      INTERPOLATION_PATH: "download-product-configs"
+    input_mapping:
+      files: config
+    output_mapping:
+      interpolated-files: config
+  - task: download-opsman-image
+    image: platform-automation-image
+    file: platform-automation-tasks/tasks/download-product.yml
+    params:
+      CONFIG_FILE: download-product-configs/opsman.yml
+  - aggregate:
+    - put: opsman-product
+      get_params: {skip_download: "true"}
+      params:
+        file: downloaded-product/*
+
+- name: fetch-pas
+  plan:
+  - aggregate:
+    - get: daily
+      trigger: true
+    - get: platform-automation-image
+      params:
+        unpack: true
+    - get: platform-automation-tasks
+      params:
+        unpack: true
+    - get: config
+  - task: credhub-interpolate
+    image: platform-automation-image
+    file: platform-automation-tasks/tasks/credhub-interpolate.yml
+    params:
+      CREDHUB_CLIENT: ((credhub_client))
+      CREDHUB_SECRET: ((credhub_secret))
+      CREDHUB_SERVER: ((credhub_server))
+      CREDHUB_CA_CERT: ((credhub_ca_cert.certificate))
+      PREFIX: '/foundations/common'
+      INTERPOLATION_PATH: "download-product-configs"
+    input_mapping:
+      files: config
+    output_mapping:
+      interpolated-files: config
+  - task: download-pas-product-and-stemcell
+    image: platform-automation-image
+    file: platform-automation-tasks/tasks/download-product.yml
+    params:
+      CONFIG_FILE: download-product-configs/pas.yml
+    output_mapping: {downloaded-stemcell: pas-stemcell}
+  - aggregate:
+    - put: pas-product
+      get_params: {skip_download: "true"}
+      params:
+        file: downloaded-product/*.pivotal
+    - put: pas-stemcell
+      get_params: {skip_download: "true"}
+      params:
+        file: pas-stemcell/*.tgz
+
+- name: fetch-ncp
+  plan:
+  - aggregate:
+    - get: daily
+      trigger: true
+    - get: platform-automation-image
+      params:
+        unpack: true
+    - get: platform-automation-tasks
+      params:
+        unpack: true
+    - get: config
+  - task: credhub-interpolate
+    image: platform-automation-image
+    file: platform-automation-tasks/tasks/credhub-interpolate.yml
+    params:
+      CREDHUB_CLIENT: ((credhub_client))
+      CREDHUB_SECRET: ((credhub_secret))
+      CREDHUB_SERVER: ((credhub_server))
+      CREDHUB_CA_CERT: ((credhub_ca_cert.certificate))
+      PREFIX: '/foundations/common'
+      INTERPOLATION_PATH: "download-product-configs"
+    input_mapping:
+      files: config
+    output_mapping:
+      interpolated-files: config
+  - task: download-ncp
+    image: platform-automation-image
+    file: platform-automation-tasks/tasks/download-product.yml
+    params:
+      CONFIG_FILE: download-product-configs/ncp.yml
+  - aggregate:
+    - put: ncp-product
+      get_params: {skip_download: "true"}
+      params:
+        file: downloaded-product/*
+
+- name: fetch-observability-store
+  plan:
+  - aggregate:
+    - get: daily
+      trigger: true
+    - get: platform-automation-image
+      params:
+        unpack: true
+    - get: platform-automation-tasks
+      params:
+        unpack: true
+    - get: config
+  - task: credhub-interpolate
+    image: platform-automation-image
+    file: platform-automation-tasks/tasks/credhub-interpolate.yml
+    params:
+      CREDHUB_CLIENT: ((credhub_client))
+      CREDHUB_SECRET: ((credhub_secret))
+      CREDHUB_SERVER: ((credhub_server))
+      CREDHUB_CA_CERT: ((credhub_ca_cert.certificate))
+      PREFIX: '/foundations/common'
+      INTERPOLATION_PATH: "download-product-configs"
+    input_mapping:
+      files: config
+    output_mapping:
+      interpolated-files: config
+  - task: download-observability-store
+    image: platform-automation-image
+    file: platform-automation-tasks/tasks/download-product.yml
+    params:
+      CONFIG_FILE: download-product-configs/observability-store.yml
+    output_mapping: {downloaded-stemcell: observability-store-stemcell}
+  - aggregate:
+    - put: observability-store-product
+      get_params: {skip_download: "true"}
+      params:
+        file: downloaded-product/*
+    - put: observability-store-stemcell
+      get_params: {skip_download: "true"}
+      params:
+        file: observability-store-stemcell/*.tgz
+
+
+- name: fetch-platform-automation
+  plan:
+  - get: platform-automation-pivnet
+    trigger: true
+  - aggregate:
+    - put: platform-automation-tasks
+      params:
+        file: platform-automation-pivnet/*tasks*.zip
+    - put: platform-automation-image
+      params:
+        file: platform-automation-pivnet/*image*.tgz
