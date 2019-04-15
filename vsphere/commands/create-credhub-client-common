@@ -1,0 +1,21 @@
+./docker-run.sh <env> /bin/bash
+
+source ./set-env.sh
+
+credhub get -n /p-bosh/control-plane/uaa_admin -q
+
+# Note the uaa admin password
+
+ssh ubuntu@opsman.controlplane.haas-<num>.pez.pivotal.io
+
+uaac target concourse.controlplane.haas-215.pez.pivotal.io:8443 --skip-ssl-validation
+
+uaac token client get
+
+Client ID:  admin
+Client secret:  <uaa admin password>
+
+uaac client add --name common_to_credhub --scope uaa.none --authorized_grant_types client_credentials --authorities "credhub.write,credhub.read"
+
+Client ID: common_to_credhub
+New client secret: <anything but remember it>
