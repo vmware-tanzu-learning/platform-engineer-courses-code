@@ -1,0 +1,78 @@
+product-name: p-healthwatch
+product-properties:
+  .healthwatch-forwarder.boshhealth_instance_count:
+    value: 1
+  .healthwatch-forwarder.boshtasks_instance_count:
+    value: 2
+  .healthwatch-forwarder.canary_instance_count:
+    value: 2
+  .healthwatch-forwarder.cli_instance_count:
+    value: 2
+  .healthwatch-forwarder.foundation_name:
+    value: sandbox
+  .healthwatch-forwarder.health_check_az:
+    value: AZ1
+  .healthwatch-forwarder.health_check_vm_type:
+    value: micro
+  .healthwatch-forwarder.ingestor_instance_count:
+    value: 4
+  .healthwatch-forwarder.opsman_instance_count:
+    value: 2
+  .healthwatch-forwarder.publish_to_eva:
+    value: true
+  .healthwatch-forwarder.worker_instance_count:
+    value: 4
+  .mysql.skip_name_resolve:
+    value: true
+  .properties.boshtasks:
+    value: enable
+  .properties.boshtasks.enable.bosh_taskcheck_password:
+    value:
+      secret: ((healthwatch_bosh_password))
+  .properties.boshtasks.enable.bosh_taskcheck_username:
+    value: ops_manager
+  .properties.indicators_selector:
+    value: "No"
+  .properties.opsman:
+    value: enable
+  .properties.opsman.enable.url:
+    value: https://opsman.sandbox.haas-<num>.pez.pivotal.io
+  .properties.syslog_selector:
+    value: "No"
+network-properties:
+  network:
+    name: PAS-Infrastructure
+  other_availability_zones:
+  - name: AZ1
+  - name: AZ2
+  - name: AZ3
+  service_network:
+    name: PAS-Infrastructure
+  singleton_availability_zone:
+    name: AZ1
+resource-config:
+  healthwatch-forwarder:
+    instances: automatic
+    persistent_disk:
+      size_mb: automatic
+    instance_type:
+      id: automatic
+  mysql:
+    instances: automatic
+    persistent_disk:
+      size_mb: automatic
+    instance_type:
+      id: automatic
+  redis:
+    instances: automatic
+    persistent_disk:
+      size_mb: automatic
+    instance_type:
+      id: automatic
+errand-config:
+  delete-space:
+    pre-delete-state: true
+  push-apps:
+    post-deploy-state: true
+  smoke-tests:
+    post-deploy-state: true

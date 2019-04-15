@@ -1,0 +1,36 @@
+product-name: VMware-NSX-T
+product-properties:
+  .properties.container_ip_blocks:
+    value:
+    - cidr: null
+      name: PAS-Org-IPs
+  .properties.enable_snat:
+    value: true
+  .properties.exit_on_disconnection:
+    value: enable
+  .properties.external_ip_pools:
+    value:
+    - allocation_ranges: null
+      cidr: null
+      name: external-ip-pool
+  .properties.foundation_name:
+    value: sandbox
+  .properties.log_dropped_traffic:
+    value: false
+  .properties.ncp_debug_log:
+    value: false
+  .properties.nsx_api_managers:
+    value: nsxmgr-01.haas-<num>.pez.pivotal.io
+  .properties.nsx_auth:
+    value: simple
+  .properties.nsx_auth.simple.nsx_api_password:
+    value:
+      secret: ((nsx_password))
+  .properties.nsx_auth.simple.nsx_api_user:
+    value: admin
+  .properties.nsx_node_agent_debug_log:
+    value: false
+  .properties.subnet_prefix:
+    value: 24
+  .properties.tier0_router:
+    value: T0-Router
