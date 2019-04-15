@@ -1,0 +1,5 @@
+fly -t main login -c https://concourse.controlplane.haas-<num>.pez.pivotal.io -u admin -p <password> -k
+
+fly -t main set-team --team-name sandbox --local-user admin
+
+fly -t vs login -c https://concourse.controlplane.haas-<num>.pez.pivotal.io -u admin -p <password> -k -n sandbox

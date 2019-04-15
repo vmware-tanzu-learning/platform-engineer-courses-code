@@ -1,1 +1,5 @@
-fly -t vc set-team --team-name common --local-user admin
+fly -t main login -c https://concourse.controlplane.haas-<num>.pez.pivotal.io -u admin -p <password> -k
+
+fly -t main set-team --team-name common --local-user admin
+
+fly -t vc login -c https://concourse.controlplane.haas-<num>.pez.pivotal.io -u admin -p <password> -k -n common
