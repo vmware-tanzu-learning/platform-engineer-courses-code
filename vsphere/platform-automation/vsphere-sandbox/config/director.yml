@@ -1,0 +1,137 @@
+az-configuration:
+- name: AZ1
+  clusters:
+  - cluster: Cluster
+    resource_pool: pas-az1
+  iaas_configuration_guid: fa7e89c5ef5f72b16b8a
+- name: AZ2
+  clusters:
+  - cluster: Cluster
+    resource_pool: pas-az2
+  iaas_configuration_guid: fa7e89c5ef5f72b16b8a
+- name: AZ3
+  clusters:
+  - cluster: Cluster
+    resource_pool: pas-az3
+  iaas_configuration_guid: fa7e89c5ef5f72b16b8a
+network-assignment:
+  network:
+    name: PAS-Infrastructure
+  other_availability_zones: []
+  singleton_availability_zone:
+    name: AZ1
+networks-configuration:
+  icmp_checks_enabled: false
+  networks:
+  - name: PAS-Infrastructure
+    subnets:
+    - iaas_identifier: PAS-Infrastructure
+      cidr: 192.168.1.0/24
+      dns: 10.192.2.10
+      gateway: 192.168.1.1
+      reserved_ip_ranges: 192.168.1.1-192.168.1.10
+      availability_zone_names:
+      - AZ1
+      - AZ2
+      - AZ3
+  - name: PAS-Deployment
+    subnets:
+    - iaas_identifier: PAS-Deployment
+      cidr: 192.168.2.0/24
+      dns: 10.192.2.10
+      gateway: 192.168.2.1
+      reserved_ip_ranges: ""
+      availability_zone_names:
+      - AZ1
+      - AZ2
+      - AZ3
+  - name: PAS-Services
+    subnets:
+    - iaas_identifier: PAS-Services
+      cidr: 192.168.3.0/24
+      dns: 10.192.3.10
+      gateway: 192.168.3.1
+      reserved_ip_ranges: ""
+      availability_zone_names:
+      - AZ1
+      - AZ2
+      - AZ3
+properties-configuration:
+  director_configuration:
+    allow_legacy_agents: true
+    blobstore_type: local
+    bosh_recreate_on_next_deploy: false
+    bosh_recreate_persistent_disks_on_next_deploy: false
+    database_type: internal
+    director_worker_count: 5
+    encryption:
+      keys: []
+      providers: []
+    hm_emailer_options:
+      enabled: false
+    hm_pager_duty_options:
+      enabled: false
+    identification_tags: {}
+    keep_unreachable_vms: false
+    local_blobstore_options:
+      tls_enabled: true
+    ntp_servers_string: time.svc.pivotal.io
+    post_deploy_enabled: false
+    resurrector_enabled: true
+    retry_bosh_deploys: false
+    skip_director_drain: true
+  dns_configuration:
+    excluded_recursors: []
+    handlers: []
+  iaas_configuration:
+    additional_cloud_properties: {}
+    bosh_disk_path: pcf_disk
+    bosh_template_folder: pcf_templates
+    bosh_vm_folder: pcf_vms
+    datacenter: Datacenter
+    disk_type: thin
+    ephemeral_datastores_string: LUN01
+    guid: fa7e89c5ef5f72b16b8a
+    name: default
+    nsx_address: nsxmgr-01.haas-<num>.pez.pivotal.io
+    nsx_ca_certificate: ((nsx_ca_cert.certificate))
+    nsx_mode: nsx-t
+    nsx_networking_enabled: true
+    nsx_username: admin
+    nsx_password: ((nsx_password))
+    persistent_datastores_string: LUN01
+    ssl_verification_enabled: false
+    vcenter_host: vcsa-01.haas-<num>.pez.pivotal.io
+    vcenter_username: Administrator@vsphere.local
+    vcenter_password: ((vcenter_password))
+  security_configuration:
+    generate_vm_passwords: true
+    opsmanager_root_ca_trusted_certs: true
+  syslog_configuration:
+    enabled: false
+resource-configuration:
+  compilation:
+    instances: automatic
+    instance_type:
+      id: automatic
+  director:
+    instances: automatic
+    persistent_disk:
+      size_mb: automatic
+    instance_type:
+      id: automatic
+vmextensions-configuration:
+- name: diego-brain-extension
+  cloud_properties:
+    nsxt:
+      lb:
+        server_pools:
+        - name: PAS-DiegoBrain2222ServerPool
+          port: 2222
+- name: router-extension
+  cloud_properties:
+    nsxt:
+      lb:
+        server_pools:
+        - name: PAS-GoRouter443ServerPool
+          port: 443
