@@ -28,7 +28,7 @@ product-properties:
   .cloud_controller.staging_timeout_in_seconds:
     value: 900
   .cloud_controller.system_domain:
-    value: system.sandbox.haas-<num>.pez.pivotal.io
+    value: sys.sandbox.haas-<num>.pez.pivotal.io
   .diego_brain.starting_container_count_maximum:
     value: 200
   .doppler.message_drain_buffer_size:
