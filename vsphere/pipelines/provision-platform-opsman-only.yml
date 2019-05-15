@@ -15,8 +15,6 @@ resources:
     private_key: ((git_deploy_key.private_key))
     uri: ((git_uri))
     branch: master
-    submodules: all
-    depth: 1
 
 - name: opsman-product
   type: s3
@@ -26,7 +24,7 @@ resources:
     bucket: ((s3.bucket_name))
     secret_access_key: ((s3.secret_key))
     skip_ssl_verification: true
-    regexp: pcf-vsphere-(.*).ova
+    regexp: ops-manager-vsphere-(.*).ova
 
 - name: installation
   type: s3
@@ -74,7 +72,8 @@ jobs:
               unpack: true
           - get: opsman-product
           - get: configuration
-      - task: credhub-interpolate
+      - &credhub-interpolate
+        task: credhub-interpolate
         image: platform-automation-image
         file: platform-automation-tasks/tasks/credhub-interpolate.yml
         params:
@@ -87,14 +86,14 @@ jobs:
         input_mapping:
           files: configuration
         output_mapping:
-          interpolated-files: interpolated-config
+          interpolated-files: product-configs
       - task: create-vm
         image: platform-automation-image
         file: platform-automation-tasks/tasks/create-vm.yml
         input_mapping:
           image: opsman-product
-          state: interpolated-config
-          config: interpolated-config
+          state: product-configs
+          config: product-configs
         params:
           STATE_FILE: state/state.yml
           OPSMAN_CONFIG_FILE: config/opsman.yml
@@ -123,8 +122,8 @@ jobs:
         file: platform-automation-tasks/tasks/configure-authentication.yml
         attempts: 10
         input_mapping:
-          env: interpolated-config
-          config: interpolated-config
+          env: product-configs
+          config: product-configs
         params:
           ENV_FILE: env/env.yml
           AUTH_CONFIG_FILE: config/auth.yml
@@ -132,8 +131,8 @@ jobs:
         image: platform-automation-image
         file: platform-automation-tasks/tasks/configure-director.yml
         input_mapping:
-          config: interpolated-config
-          env: interpolated-config
+          config: product-configs
+          env: product-configs
         params:
           ENV_FILE: env/env.yml
           DIRECTOR_CONFIG_FILE: config/director.yml
@@ -141,7 +140,7 @@ jobs:
         image: platform-automation-image
         file: platform-automation-tasks/tasks/apply-director-changes.yml
         input_mapping:
-          env: interpolated-config
+          env: product-configs
         params:
           ENV_FILE: env/env.yml
 
@@ -154,25 +153,12 @@ jobs:
           - get: platform-automation-image
             params: {unpack: true}
           - get: configuration
-      - task: credhub-interpolate
-        image: platform-automation-image
-        file: platform-automation-tasks/tasks/credhub-interpolate.yml
-        params:
-          CREDHUB_CLIENT: ((credhub_client))
-          CREDHUB_SECRET: ((credhub_secret))
-          CREDHUB_SERVER: ((credhub_server))
-          CREDHUB_CA_CERT: ((credhub_ca_cert.certificate))
-          PREFIX: '/foundations/sandbox'
-          INTERPOLATION_PATH: '.'
-        input_mapping:
-          files: configuration
-        output_mapping:
-          interpolated-files: interpolated-config
+      - *credhub-interpolate
       - task: staged-director-config
         image: platform-automation-image
         file: platform-automation-tasks/tasks/staged-director-config.yml
         input_mapping:
-          env: interpolated-config
+          env: product-configs
         params:
           ENV_FILE: env/env.yml
 
@@ -189,25 +175,12 @@ jobs:
             params:
               unpack: true
           - get: configuration
-      - task: credhub-interpolate
-        image: platform-automation-image
-        file: platform-automation-tasks/tasks/credhub-interpolate.yml
-        params:
-          CREDHUB_CLIENT: ((credhub_client))
-          CREDHUB_SECRET: ((credhub_secret))
-          CREDHUB_SERVER: ((credhub_server))
-          CREDHUB_CA_CERT: ((credhub_ca_cert.certificate))
-          PREFIX: '/foundations/sandbox'
-          INTERPOLATION_PATH: '.'
-        input_mapping:
-          files: configuration
-        output_mapping:
-          interpolated-files: interpolated-config
+      - *credhub-interpolate
       - task: export-installation
         image: platform-automation-image
         file: platform-automation-tasks/tasks/export-installation.yml
         input_mapping:
-          env: interpolated-config
+          env: product-configs
         params:
           ENV_FILE: env/env.yml
           INSTALLATION_FILE: installation-$timestamp.zip
@@ -233,28 +206,15 @@ jobs:
           - get: installation
             passed: [ export-installation ]
           - get: configuration
-      - task: credhub-interpolate
-        image: platform-automation-image
-        file: platform-automation-tasks/tasks/credhub-interpolate.yml
-        params:
-          CREDHUB_CLIENT: ((credhub_client))
-          CREDHUB_SECRET: ((credhub_secret))
-          CREDHUB_SERVER: ((credhub_server))
-          CREDHUB_CA_CERT: ((credhub_ca_cert.certificate))
-          PREFIX: '/foundations/sandbox'
-          INTERPOLATION_PATH: '.'
-        input_mapping:
-          files: configuration
-        output_mapping:
-          interpolated-files: interpolated-config
+      - *credhub-interpolate
       - task: upgrade-opsman
         image: platform-automation-image
         file: platform-automation-tasks/tasks/upgrade-opsman.yml
         input_mapping:
           image: opsman-product
-          state: interpolated-config
-          config: interpolated-config
-          env: interpolated-config
+          state: product-configs
+          config: product-configs
+          env: product-configs
         params:
           ENV_FILE: env/env.yml
           OPSMAN_CONFIG_FILE: config/opsman.yml
@@ -264,6 +224,6 @@ jobs:
         image: platform-automation-image
         file: platform-automation-tasks/tasks/apply-director-changes.yml
         input_mapping:
-          env: interpolated-config
+          env: product-configs
         params:
           ENV_FILE: env/env.yml
