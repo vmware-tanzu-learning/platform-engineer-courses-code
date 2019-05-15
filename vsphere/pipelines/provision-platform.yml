@@ -26,7 +26,7 @@ resources:
     bucket: ((s3.bucket_name))
     secret_access_key: ((s3.secret_key))
     skip_ssl_verification: true
-    regexp: pcf-vsphere-(.*).ova
+    regexp: ops-manager-vsphere-(.*).ova
 
 - name: installation
   type: s3
