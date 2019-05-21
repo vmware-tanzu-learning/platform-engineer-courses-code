@@ -105,6 +105,7 @@ properties-configuration:
     vcenter_username: Administrator@vsphere.local
     vcenter_password: ((vcenter_password))
   security_configuration:
+    trusted_certificates: ((my_ca.certificate))
     generate_vm_passwords: true
     opsmanager_root_ca_trusted_certs: true
   syslog_configuration:
