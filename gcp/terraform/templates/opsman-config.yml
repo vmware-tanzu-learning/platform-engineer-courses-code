@@ -1,0 +1,10 @@
+opsman-configuration:
+  gcp:
+    project: {{.project}}
+    gcp_service_account: ((gcp_service_account_json))
+    region: us-central1
+    zone: us-central1-b
+    vm_name: ops-manager
+    vpc_subnet: {{.infrastructure_subnet_name}}
+    tags: ops-manager-external
+    private_ip: {{.ops_manager_private_ip}}
