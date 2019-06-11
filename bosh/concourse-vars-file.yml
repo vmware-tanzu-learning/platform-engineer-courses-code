@@ -1,0 +1,23 @@
+---
+deployment_name: concourse
+
+network_name: private
+web_vm_type: default
+db_vm_type: default
+worker_vm_type: default
+db_persistent_disk_type: 1GB
+
+external_url: https://{$IP_ADDR}
+external_host: ${IP_ADDR}
+
+web_instances: 1
+worker_instances: 2
+
+local_user:
+  username: admin
+  password: ${YOUR_PASSWORD}
+
+web_network_vm_extension: lb
+web_network_name: private
+
+worker_ephemeral_disk: 50GB_ephemeral_disk
