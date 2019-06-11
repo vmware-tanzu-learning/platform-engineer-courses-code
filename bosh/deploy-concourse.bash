@@ -1,4 +1,3 @@
-cd concourse-bosh-deployment/cluster
 bosh deploy --deployment concourse concourse.yml \
   --vars-file ../versions.yml \
   --vars-file concourse-vars-file.yml \
