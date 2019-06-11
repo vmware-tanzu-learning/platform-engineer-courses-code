@@ -2,12 +2,12 @@ name: nginx
 
 releases:
 - name: nginx
-  version: 1.13.12
+  version: "1.13.12"
 
 stemcells:
 - alias: default
   os: ubuntu-xenial
-  version: 315.34
+  version: "315.34"
 
 instance_groups:
 - name: nginx
