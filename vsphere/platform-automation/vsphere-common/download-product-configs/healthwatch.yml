@@ -2,6 +2,6 @@
 pivnet-api-token: ((pivnet_token))
 pivnet-file-glob: "*.pivotal"
 pivnet-product-slug: p-healthwatch
-product-version: 1.5.2
+product-version-regex: ^1\.5\..*$
 stemcell-iaas: vsphere
 
