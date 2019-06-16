@@ -11,105 +11,120 @@ resources:
   source:
     interval: 24h
 
+- name: opsman-product
+  type: s3
+  source:
+    regexp: ops-manager-vsphere-(.*).ova
+    endpoint: ((s3.address))
+    access_key_id: ((s3.access_key))
+    secret_access_key: ((s3.secret_key))
+    skip_ssl_verification: true
+    bucket: ((s3.bucket_name))
+
+- name: ncp-product
+  type: s3
+  source:
+    regexp: VMware-NSX-(.*).pivotal
+    endpoint: ((s3.address))
+    access_key_id: ((s3.access_key))
+    secret_access_key: ((s3.secret_key))
+    skip_ssl_verification: true
+    bucket: ((s3.bucket_name))
+
+- name: pas-product
+  type: s3
+  source:
+    regexp: srt-(.*).pivotal
+    endpoint: ((s3.address))
+    access_key_id: ((s3.access_key))
+    secret_access_key: ((s3.secret_key))
+    skip_ssl_verification: true
+    bucket: ((s3.bucket_name))
+
+- name: pas-stemcell
+  type: s3
+  source:
+    regexp: pas-stemcell/bosh-stemcell-(.*)-vsphere.*\.tgz
+    endpoint: ((s3.address))
+    access_key_id: ((s3.access_key))
+    secret_access_key: ((s3.secret_key))
+    skip_ssl_verification: true
+    bucket: ((s3.bucket_name))
+
+- name: healthwatch-product
+  type: s3
+  source:
+    regexp: p-healthwatch-(.*).pivotal
+    endpoint: ((s3.address))
+    access_key_id: ((s3.access_key))
+    secret_access_key: ((s3.secret_key))
+    skip_ssl_verification: true
+    bucket: ((s3.bucket_name))
+
+- name: healthwatch-stemcell
+  type: s3
+  source:
+    regexp: healthwatch-stemcell/bosh-stemcell-(.*)-vsphere.*\.tgz
+    endpoint: ((s3.address))
+    access_key_id: ((s3.access_key))
+    secret_access_key: ((s3.secret_key))
+    skip_ssl_verification: true
+    bucket: ((s3.bucket_name))
+
 - name: config
   type: git
   source:
     private_key: ((git_deploy_key.private_key))
     uri: ((git_uri))
     branch: master
-    submodules: all
     depth: 1
-
-- name: healthwatch-product
-  type: s3
-  source:
-    endpoint: ((s3.address))
-    access_key_id: ((s3.access_key))
-    bucket: ((s3.bucket_name))
-    secret_access_key: ((s3.secret_key))
-    skip_ssl_verification: true
-    regexp: p-healthwatch-(.*).pivotal
-
-- name: healthwatch-stemcell
-  type: s3
-  source:
-    endpoint: ((s3.address))
-    access_key_id: ((s3.access_key))
-    bucket: ((s3.bucket_name))
-    secret_access_key: ((s3.secret_key))
-    skip_ssl_verification: true
-    regexp: healthwatch-stemcell/bosh-stemcell-(.*)-vsphere.*\.tgz
-
-- name: opsman-product
-  type: s3
-  source:
-    endpoint: ((s3.address))
-    access_key_id: ((s3.access_key))
-    bucket: ((s3.bucket_name))
-    secret_access_key: ((s3.secret_key))
-    skip_ssl_verification: true
-    regexp: ops-manager-vsphere-(.*).ova
-
-- name: pas-product
-  type: s3
-  source:
-    endpoint: ((s3.address))
-    access_key_id: ((s3.access_key))
-    bucket: ((s3.bucket_name))
-    secret_access_key: ((s3.secret_key))
-    skip_ssl_verification: true
-    regexp: srt-(.*).pivotal
-
-- name: pas-stemcell
-  type: s3
-  source:
-    endpoint: ((s3.address))
-    access_key_id: ((s3.access_key))
-    bucket: ((s3.bucket_name))
-    secret_access_key: ((s3.secret_key))
-    skip_ssl_verification: true
-    regexp: pas-stemcell/bosh-stemcell-(.*)-vsphere.*\.tgz
 
 - name: platform-automation-pivnet
   type: pivnet
   source:
     api_token: ((pivnet_token))
     product_slug: platform-automation
-    product_version: 2\.(.*)
+    product_version: 3\.(.*)
     sort_by: semver
 
 - name: platform-automation-tasks
   type: s3
   source:
+    regexp: platform-automation-tasks-(.*).zip
     endpoint: ((s3.address))
     access_key_id: ((s3.access_key))
-    bucket: ((s3.bucket_name))
     secret_access_key: ((s3.secret_key))
     skip_ssl_verification: true
-    regexp: platform-automation-tasks-(.*).zip
+    bucket: ((s3.bucket_name))
 
 - name: platform-automation-image
   type: s3
   source:
-    endpoint: ((s3.address))
-    access_key_id: ((s3.access_key))
-    bucket: ((s3.bucket_name))
-    secret_access_key: ((s3.secret_key))
-    skip_ssl_verification: true
     regexp: platform-automation-image-(.*).tgz
-
-- name: ncp-product
-  type: s3
-  source:
     endpoint: ((s3.address))
     access_key_id: ((s3.access_key))
-    bucket: ((s3.bucket_name))
     secret_access_key: ((s3.secret_key))
     skip_ssl_verification: true
-    regexp: VMware-NSX-(.*).pivotal
+    bucket: ((s3.bucket_name))
 
 jobs:
-- name: fetch-healthwatch
+- name: fetch-platform-automation
+  plan:
+  - get: platform-automation-pivnet
+    trigger: true
+  - aggregate:
+    - put: platform-automation-tasks
+      params:
+        file: platform-automation-pivnet/*tasks*.zip
+      get_params:
+        skip_download: "true"
+    - put: platform-automation-image
+      params:
+        file: platform-automation-pivnet/*image*.tgz
+      get_params:
+        skip_download: "true"
+
+- name: fetch-opsman
   plan:
   - aggregate:
     - get: daily
@@ -131,30 +146,25 @@ jobs:
       CREDHUB_SERVER: ((credhub_server))
       CREDHUB_CA_CERT: ((credhub_ca_cert.certificate))
       PREFIX: '/foundations/common'
-      INTERPOLATION_PATH: "download-product-configs"
+      INTERPOLATION_PATHS: "download-product-configs"
     input_mapping:
       files: config
     output_mapping:
       interpolated-files: config
-  - task: download-healthwatch-product-and-stemcell
+  - task: download-opsman-image
     image: platform-automation-image
     file: platform-automation-tasks/tasks/download-product.yml
     params:
-      CONFIG_FILE: download-product-configs/healthwatch.yml
-    output_mapping: {downloaded-stemcell: healthwatch-stemcell}
+      CONFIG_FILE: download-product-configs/opsman.yml
   - aggregate:
-    - put: healthwatch-product
+    - put: opsman-product
       params:
-        file: downloaded-product/*.pivotal
-      get_params:
-        skip_download: "true"
-    - put: healthwatch-stemcell
-      params:
-        file: healthwatch-stemcell/*.tgz
+        file: downloaded-product/*
       get_params:
         skip_download: "true"
 
-- name: fetch-opsman
+
+- name: fetch-ncp
   plan:
   - aggregate:
     - get: daily
@@ -171,9 +181,9 @@ jobs:
     image: platform-automation-image
     file: platform-automation-tasks/tasks/download-product.yml
     params:
-      CONFIG_FILE: download-product-configs/opsman.yml
+      CONFIG_FILE: download-product-configs/ncp.yml
   - aggregate:
-    - put: opsman-product
+    - put: ncp-product
       params:
         file: downloaded-product/*
       get_params:
@@ -210,23 +220,7 @@ jobs:
       get_params:
         skip_download: "true"
 
-- name: fetch-platform-automation
-  plan:
-  - get: platform-automation-pivnet
-    trigger: true
-  - aggregate:
-    - put: platform-automation-tasks
-      params:
-        file: platform-automation-pivnet/*tasks*.zip
-      get_params:
-        skip_download: "true"
-    - put: platform-automation-image
-      params:
-        file: platform-automation-pivnet/*image*.tgz
-      get_params:
-        skip_download: "true"
-
-- name: fetch-ncp
+- name: fetch-healthwatch
   plan:
   - aggregate:
     - get: daily
@@ -239,14 +233,20 @@ jobs:
         unpack: true
     - get: config
   - *credhub-interpolate
-  - task: download-ncp
+  - task: download-healthwatch-product-and-stemcell
     image: platform-automation-image
     file: platform-automation-tasks/tasks/download-product.yml
     params:
-      CONFIG_FILE: download-product-configs/ncp.yml
+      CONFIG_FILE: download-product-configs/healthwatch.yml
+    output_mapping: {downloaded-stemcell: healthwatch-stemcell}
   - aggregate:
-    - put: ncp-product
+    - put: healthwatch-product
       params:
         file: downloaded-product/*.pivotal
+      get_params:
+        skip_download: "true"
+    - put: healthwatch-stemcell
+      params:
+        file: healthwatch-stemcell/*.tgz
       get_params:
         skip_download: "true"
