@@ -1,0 +1,52 @@
+resource_types:
+- name: pivnet
+  type: docker-image
+  source:
+    repository: pivotalcf/pivnet-resource
+    tag: latest-final
+
+resources:
+- name: platform-automation-pivnet
+  type: pivnet
+  source:
+    api_token: ((pivnet_token))
+    product_slug: platform-automation
+    product_version: 3\.(.*)
+    sort_by: semver
+
+- name: platform-automation-tasks
+  type: s3
+  source:
+    regexp: platform-automation-tasks-(.*).zip
+    endpoint: ((s3.address))
+    access_key_id: ((s3.access_key))
+    secret_access_key: ((s3.secret_key))
+    skip_ssl_verification: true
+    bucket: ((s3.bucket_name))
+
+- name: platform-automation-image
+  type: s3
+  source:
+    regexp: platform-automation-image-(.*).tgz
+    endpoint: ((s3.address))
+    access_key_id: ((s3.access_key))
+    secret_access_key: ((s3.secret_key))
+    skip_ssl_verification: true
+    bucket: ((s3.bucket_name))
+
+jobs:
+- name: fetch-platform-automation
+  plan:
+  - get: platform-automation-pivnet
+    trigger: true
+  - aggregate:
+    - put: platform-automation-tasks
+      params:
+        file: platform-automation-pivnet/*tasks*.zip
+      get_params:
+        skip_download: "true"
+    - put: platform-automation-image
+      params:
+        file: platform-automation-pivnet/*image*.tgz
+      get_params:
+        skip_download: "true"
