@@ -36,20 +36,27 @@ resources:
     uri: ((git_uri))
     branch: master
 
+- name: one-time-trigger
+  type: time
+  source:
+    interval: 999999h
+
 jobs:
 - name: install-opsman
   serial: true
   serial_groups: [ install ]
   plan:
     - aggregate:
-        - get: platform-automation-image
-          params:
-            unpack: true
-        - get: platform-automation-tasks
-          params:
-            unpack: true
-        - get: opsman-product
-        - get: config
+      - get: one-time-trigger
+        trigger: true
+      - get: platform-automation-image
+        params:
+          unpack: true
+      - get: platform-automation-tasks
+        params:
+          unpack: true
+      - get: opsman-product
+      - get: config
     - &credhub-interpolate
       task: credhub-interpolate
       image: platform-automation-image
