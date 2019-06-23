@@ -3,17 +3,17 @@ az-configuration:
   clusters:
   - cluster: Cluster
     resource_pool: pas-az1
-  iaas_configuration_guid: fa7e89c5ef5f72b16b8a
+  iaas_configuration_guid: 
 - name: AZ2
   clusters:
   - cluster: Cluster
     resource_pool: pas-az2
-  iaas_configuration_guid: fa7e89c5ef5f72b16b8a
+  iaas_configuration_guid: 
 - name: AZ3
   clusters:
   - cluster: Cluster
     resource_pool: pas-az3
-  iaas_configuration_guid: fa7e89c5ef5f72b16b8a
+  iaas_configuration_guid: 
 network-assignment:
   network:
     name: PAS-Infrastructure
