@@ -111,7 +111,7 @@ jobs:
         CREDHUB_SECRET: ((credhub_secret))
         CREDHUB_SERVER: ((credhub_server))
         CREDHUB_CA_CERT: ((credhub_ca_cert.certificate))
-        PREFIX: '/foundations/sandbox'
+        PREFIX: '/concourse/sandbox'
         INTERPOLATION_PATH: '.'
       input_mapping:
         files: config
