@@ -1,11 +1,11 @@
 credentials:
-- name: /foundations/sandbox/nsx_ca_cert
+- name: /concourse/sandbox/nsx_ca_cert
   type: certificate
   value: 
     certificate: |
       -----BEGIN CERTIFICATE-----
       <fill in>
       -----END CERTIFICATE-----
-- name: /foundations/sandbox/nsx_password
+- name: /concourse/sandbox/nsx_password
   type: password
   value: <fill in>
