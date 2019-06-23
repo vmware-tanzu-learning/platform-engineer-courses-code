@@ -2,7 +2,7 @@ credentials:
 - name: /concourse/common/s3
   type: json
   value:
-    address: https://minio.controlplane.haas-<num>.pez.pivotal.io
+    address: http://minio.controlplane.haas-${HAAS_NUM}.pez.pivotal.io:9000
     access_key: <fill in>
     secret_key: <fill in>
     bucket_name: artifacts
