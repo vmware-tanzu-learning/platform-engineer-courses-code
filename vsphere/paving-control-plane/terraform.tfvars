@@ -8,5 +8,7 @@ nsxt_host="nsxmgr-01.haas-${HAAS_NUM}.pez.pivotal.io"
 nsxt_transport_zone="overlay-tz"
 nsxt_edge_cluster="edge-cluster-1"
 nsxt_t0_router="T0-Router"
+nsxt_username="admin"
+nsxt_password="fill-me-in"
 concourse_vip_server="10.xxx.zzz.32" # Routable IP that Concourse DNS should resolve to
 minio_vip_server="10.xxx.zzz.33" # Routable IP that Minio DNS should resolvet to
