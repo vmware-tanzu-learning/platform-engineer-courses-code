@@ -1,58 +1,58 @@
 credentials:
-- name: /foundations/sandbox/git_deploy_key
+- name: /concourse/sandbox/git_deploy_key
   type: ssh
   value:
     public_key: ssh-rsa <fill in>
     private_key: |
-      -----BEGIN OPENSSH PRIVATE KEY-----
+      -----BEGIN OPENSSH PRIVATE KEY----- (example)
       <fill in>
       -----END OPENSSH PRIVATE KEY-----
-- name: /foundations/sandbox/git_uri
+- name: /concourse/sandbox/git_uri
   type: value
   value: <fill in Git SSH URI here>
-- name: /foundations/sandbox/s3
+- name: /concourse/sandbox/s3
   type: json
   value:
     address: https://minio.controlplane.haas-<num>.pez.pivotal.io
     access_key: <fill in>
     secret_key: <fill in>
     bucket_name: artifacts
-- name: /foundations/sandbox/pivnet_token
+- name: /concourse/sandbox/pivnet_token
   type: value
   value: <fill in>
-- name: /foundations/sandbox/credhub_client
+- name: /concourse/sandbox/credhub_client
   type: value
   value: sandbox_to_credhub
-- name: /foundations/sandbox/credhub_secret
+- name: /concourse/sandbox/credhub_secret
   type: value
   value: <fill in>
-- name: /foundations/sandbox/credhub_server
+- name: /concourse/sandbox/credhub_server
   type: value
   value: https://concourse.controlplane.haas-<num>.pez.pivotal.io:8844
-- name: /foundations/sandbox/credhub_ca_cert
+- name: /concourse/sandbox/credhub_ca_cert
   type: certificate
   value: 
     certificate: |
       -----BEGIN CERTIFICATE-----
       <fill in>
       -----END CERTIFICATE-----
-- name: /foundations/sandbox/vcenter_password
+- name: /concourse/sandbox/vcenter_password
   type: password
   value: <fill in>
-- name: /foundations/sandbox/opsman_password
+- name: /concourse/sandbox/opsman_password
   type: password
   value: <fill in>
-- name: /foundations/sandbox/opsman_ssh_password
+- name: /concourse/sandbox/opsman_ssh_password
   type: password
   value: <fill in>
-- name: /foundations/sandbox/opsman_decryption_passphrase
+- name: /concourse/sandbox/opsman_decryption_passphrase
   type: password
   value: <fill in>
-- name: /foundations/sandbox/opsman_ssh_key
+- name: /concourse/sandbox/opsman_ssh_key
   type: ssh
   value:
     public_key: ssh-rsa <fill in>
     private_key: |
-      -----BEGIN OPENSSH PRIVATE KEY-----
+      -----BEGIN OPENSSH PRIVATE KEY----- (example)
       <fill in>
       -----END OPENSSH PRIVATE KEY-----
