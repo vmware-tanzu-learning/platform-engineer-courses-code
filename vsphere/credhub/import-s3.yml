@@ -1,5 +1,5 @@
 credentials:
-- name: /foundations/common/s3
+- name: /concourse/common/s3
   type: json
   value:
     address: https://minio.controlplane.haas-<num>.pez.pivotal.io
