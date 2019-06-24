@@ -6,9 +6,10 @@ if [ -z "$PIVNET_TOKEN" ]; then
 fi
 ops_manager_version=2.5.6
 controlplane_version=0.0.36
-stemcell_version=315.36
+controlplane_stemcell_version=315.36
 platform_automation_version=3.0.1
 minio_version=1.0.4
+minio_stemcell_version=97.113
 files_directory=~/Downloads
 
 mkdir -p ${files_directory}
@@ -27,11 +28,17 @@ if [ ! -f ${files_directory}/control-plane-${controlplane_version}*.pivotal ]; t
 else
   echo "Control Plane Tile version $controlplane_version already exists"
 fi
-echo "Attempting to download Stemcell version $stemcell_version"
-if [ ! -f ${files_directory}/bosh-stemcell-${stemcell_version}-*.tgz ]; then
-    pivnet download-product-files -p stemcells-ubuntu-xenial -r ${stemcell_version} -g *vsphere* -d ${files_directory}
+echo "Attempting to download Stemcell version $controlplane_stemcell_version"
+if [ ! -f ${files_directory}/bosh-stemcell-${controlplane_stemcell_version}-*.tgz ]; then
+    pivnet download-product-files -p stemcells-ubuntu-xenial -r ${controlplane_stemcell_version} -g *vsphere* -d ${files_directory}
 else
-  echo "Stemcell version $stemcell_version already exists"
+  echo "Stemcell version $controlplane_stemcell_version already exists"
+fi
+echo "Attempting to download Stemcell version $minio_stemcell_version"
+if [ ! -f ${files_directory}/bosh-stemcell-${minio_stemcell_version}-*.tgz ]; then
+    pivnet download-product-files -p stemcells-ubuntu-xenial -r ${minio_stemcell_version} -g *vsphere* -d ${files_directory}
+else
+  echo "Stemcell version $minio_stemcell_version already exists"
 fi
 echo "Attempting to download Platform Automation Image version $platform_automation_version"
 if [ ! -f ${files_directory}/platform-automation-image-${platform_automation_version}.tgz ]; then
