@@ -112,7 +112,7 @@ jobs:
           CREDHUB_SERVER: ((credhub_server))
           CREDHUB_CA_CERT: ((credhub_ca_cert.certificate))
           PREFIX: '/concourse/sandbox'
-          INTERPOLATION_PATH: '.'
+          INTERPOLATION_PATHS: '.'
         input_mapping:
           files: configuration
         output_mapping:
