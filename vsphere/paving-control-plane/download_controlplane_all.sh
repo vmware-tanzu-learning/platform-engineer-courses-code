@@ -4,12 +4,12 @@ if [ -z "$PIVNET_TOKEN" ]; then
     echo "Must provide pivnet api token as environment variable PIVNET_TOKEN"
     exit 1
 fi
-ops_manager_version=2.5.6
-controlplane_version=0.0.36
-controlplane_stemcell_version=315.36
+ops_manager_version=2.6.2
+controlplane_version=0.0.37
+controlplane_stemcell_version=315.45
 platform_automation_version=3.0.1
 minio_version=1.0.4
-minio_stemcell_version=97.113
+minio_stemcell_version=97.122
 files_directory=~/Downloads
 
 mkdir -p ${files_directory}
@@ -51,4 +51,4 @@ if [ ! -f ${files_directory}/minio-internal-blobstore-${minio_version}*.pivotal 
     pivnet download-product-files -p minio-internal-blobstore -r ${minio_version} -g "*.pivotal" -d ${files_directory}
 else
   echo "Minio tile version $minio_version already exists"
-fi   
+fi
