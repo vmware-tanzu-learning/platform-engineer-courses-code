@@ -106,6 +106,7 @@ jobs:
       CREDHUB_CA_CERT: ((credhub_ca_cert.certificate))
       PREFIX: '/concourse/common'
       INTERPOLATION_PATHS: "download-product-configs"
+      SKIP_MISSING: false
     input_mapping:
       files: config
     output_mapping:
@@ -145,6 +146,7 @@ jobs:
       CREDHUB_CA_CERT: ((credhub_ca_cert.certificate))
       PREFIX: '/concourse/common'
       INTERPOLATION_PATHS: "download-product-configs"
+      SKIP_MISSING: false
     input_mapping:
       files: config
     output_mapping:
