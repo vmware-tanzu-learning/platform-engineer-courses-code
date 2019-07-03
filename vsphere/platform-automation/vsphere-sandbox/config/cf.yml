@@ -18,11 +18,13 @@ product-properties:
     value: true
   .cloud_controller.encrypt_key:
     value:
-      secret: 
+      secret:
   .cloud_controller.max_disk_quota_app:
     value: 2048
   .cloud_controller.max_file_size:
     value: 1024
+  .cloud_controller.max_package_size:
+    value: 2147483648
   .cloud_controller.security_event_logging_enabled:
     value: true
   .cloud_controller.staging_timeout_in_seconds:
@@ -99,11 +101,11 @@ product-properties:
     value: internal_mysql
   .properties.credhub_hsm_provider_client_certificate:
     value:
-      cert_pem: 
-      private_key_pem: 
+      cert_pem:
+      private_key_pem:
   .properties.credhub_hsm_provider_partition_password:
     value:
-      secret: 
+      secret:
   .properties.credhub_key_encryption_passwords:
     value:
     - key:
@@ -116,6 +118,8 @@ product-properties:
   .properties.diego_log_timestamp_format:
     selected_option: rfc3339
     value: rfc3339
+  .properties.enable_garden_containerd_mode:
+    value: true
   .properties.enable_smb_volume_driver:
     value: false
   .properties.enable_tls_to_internal_pxc:
@@ -125,6 +129,8 @@ product-properties:
   .properties.garden_disk_cleanup:
     selected_option: reserved
     value: reserved
+  .properties.garden_disk_cleanup.reserved.reserved_space_for_other_jobs_in_mb:
+    value: 15360
   .properties.gorouter_ssl_ciphers:
     value: ECDHE-RSA-AES128-GCM-SHA256:TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
   .properties.haproxy_client_cert_validation:
@@ -145,6 +151,8 @@ product-properties:
     value: disable
   .properties.locket_database_max_open_connections:
     value: 200
+  .properties.log_cache_max_per_source:
+    value: 100000
   .properties.metric_registrar_blacklisted_tags:
     value: deployment,job,index,id
   .properties.metric_registrar_enabled:
@@ -171,7 +179,7 @@ product-properties:
     value: enable
   .properties.nfs_volume_driver.enable.ldap_service_account_password:
     value:
-      secret: 
+      secret:
   .properties.push_apps_manager_app_poll_interval:
     value: 10
   .properties.push_apps_manager_currency_lookup:
@@ -202,6 +210,8 @@ product-properties:
   .properties.router_keepalive_connections:
     selected_option: enable
     value: enable
+  .properties.router_prune_all_stale_routes:
+    value: false
   .properties.routing_disable_http:
     value: false
   .properties.routing_log_client_ips:
@@ -232,8 +242,8 @@ product-properties:
       password:
   .properties.smtp_enable_starttls_auto:
     value: false
-  .properties.stack_migration_acknowledgement:
-    value: X
+  .properties.syslog_agent_enabled:
+    value: false
   .properties.syslog_drop_debug:
     value: true
   .properties.syslog_metrics_to_syslog_enabled:
@@ -253,6 +263,8 @@ product-properties:
   .properties.system_database:
     selected_option: internal_pxc
     value: internal_pxc
+  .properties.system_metrics_enabled:
+    value: true
   .properties.tcp_routing:
     selected_option: disable
     value: disable
