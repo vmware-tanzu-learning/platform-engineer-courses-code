@@ -122,13 +122,6 @@ resource-configuration:
     instance_type:
       id: automatic
 vmextensions-configuration:
-- name: diego-brain-extension
-  cloud_properties:
-    nsxt:
-      lb:
-        server_pools:
-        - name: PAS-DiegoBrain2222ServerPool
-          port: 2222
 - name: router-extension
   cloud_properties:
     nsxt:

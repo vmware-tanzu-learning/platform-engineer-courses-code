@@ -357,8 +357,6 @@ resource-config:
     instances: automatic
     instance_type:
       id: automatic
-    additional_vm_extensions:
-    - diego-brain-extension
   database:
     instances: automatic
     persistent_disk:
