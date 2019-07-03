@@ -3,7 +3,7 @@ product-properties:
   .cloud_controller.allow_app_ssh_access:
     value: true
   .cloud_controller.apps_domain:
-    value: apps.sandbox.haas-((haas-num)).pez.pivotal.io
+    value: apps.sandbox.haas-((haas_num)).pez.pivotal.io
   .cloud_controller.default_app_memory:
     value: 1024
   .cloud_controller.default_app_ssh_access:
@@ -28,7 +28,7 @@ product-properties:
   .cloud_controller.staging_timeout_in_seconds:
     value: 900
   .cloud_controller.system_domain:
-    value: sys.sandbox.haas-((haas-num)).pez.pivotal.io
+    value: sys.sandbox.haas-((haas_num)).pez.pivotal.io
   .diego_brain.starting_container_count_maximum:
     value: 200
   .ha_proxy.skip_cert_verify:

@@ -20,7 +20,7 @@ product-properties:
   .properties.ncp_debug_log:
     value: false
   .properties.nsx_api_managers:
-    value: nsxmgr-01.haas-<num>.pez.pivotal.io
+    value: nsxmgr-01.haas-((haas_num)).pez.pivotal.io
   .properties.nsx_auth:
     value: simple
   .properties.nsx_auth.simple.nsx_api_password:
