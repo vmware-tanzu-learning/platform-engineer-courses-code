@@ -1,6 +1,6 @@
 #!/bin/bash
 
-mkdir ~/workspace/paving-control-plane
+mkdir -p ~/workspace/paving-control-plane
 cd ~/workspace/paving-control-plane
 wget https://raw.githubusercontent.com/platform-acceleration-lab/pal-course-platform-engineers-code/master/vsphere/paving-control-plane/concourse_lb.tf
 wget https://raw.githubusercontent.com/platform-acceleration-lab/pal-course-platform-engineers-code/master/vsphere/paving-control-plane/lb.tf
