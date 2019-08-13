@@ -7,7 +7,7 @@ db_vm_type: default
 worker_vm_type: default
 db_persistent_disk_type: 1GB
 
-external_url: https://{$IP_ADDR}
+external_url: https://${IP_ADDR}
 external_host: ${IP_ADDR}
 
 web_instances: 1
