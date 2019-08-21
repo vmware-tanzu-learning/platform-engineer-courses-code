@@ -138,7 +138,7 @@ jobs:
         unpack: true
     - get: config
   - *credhub-interpolate
-  - task: download-opsman-image
+  - task: download-ncp
     image: platform-automation-image
     file: platform-automation-tasks/tasks/download-product.yml
     params:
