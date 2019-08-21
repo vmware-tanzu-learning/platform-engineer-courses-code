@@ -151,7 +151,7 @@ jobs:
       files: config
     output_mapping:
       interpolated-files: config
-  - task: download-opsman-image
+  - task: download-ncp
     image: platform-automation-image
     file: platform-automation-tasks/tasks/download-product.yml
     params:
