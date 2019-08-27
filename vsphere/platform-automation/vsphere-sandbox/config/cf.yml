@@ -329,13 +329,13 @@ product-properties:
       secret:
 network-properties:
   network:
-    name: pas
+    name: PAS-Deployment
   other_availability_zones:
-  - name: pas-az1
-  - name: pas-az2
-  - name: pas-az3
+  - name: AZ1
+  - name: AZ2
+  - name: AZ3
   singleton_availability_zone:
-    name: pas-az1
+    name: AZ1
 resource-config:
   backup_restore:
     instances: automatic
