@@ -22,11 +22,11 @@ if [ ! -s ${files_directory}/ops-manager-vsphere-${ops_manager_version}*.ova ]; 
 else
   echo "Ops Manager version $ops_manager_version already exists"
 fi
-echo "Attempting to download Control Plane Tile version $controlplane_version"
+echo "Attempting to download Platform Automation Engine Tile version $controlplane_version"
 if [ ! -s ${files_directory}/control-plane-${controlplane_version}*.pivotal ]; then
     pivnet download-product-files -p p-control-plane-components -r ${controlplane_version} -g "*.pivotal" -d ${files_directory}
 else
-  echo "Control Plane Tile version $controlplane_version already exists"
+  echo "Platform Automation Engine Tile version $controlplane_version already exists"
 fi
 echo "Attempting to download Stemcell version $controlplane_stemcell_version"
 if [ ! -s ${files_directory}/bosh-stemcell-${controlplane_stemcell_version}-*.tgz ]; then
