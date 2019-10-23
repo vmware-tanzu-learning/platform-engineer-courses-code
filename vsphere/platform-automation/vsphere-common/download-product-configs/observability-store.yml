@@ -1,6 +1,6 @@
 ---
 pivnet-api-token: ((pivnet_token))
 pivnet-file-glob: "*pivotal"
-pivnet-product-slug: observability_datastore_pcf
-product-version-regex: ^0\.1\..*$
+pivnet-product-slug: reliability_view_pcf
+product-version-regex: ^0\.4\..*$
 stemcell-iaas: vsphere

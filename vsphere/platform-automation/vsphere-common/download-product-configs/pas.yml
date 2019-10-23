@@ -2,6 +2,6 @@
 pivnet-api-token: ((pivnet_token))
 pivnet-file-glob: "srt-*.pivotal"
 pivnet-product-slug: elastic-runtime
-product-version-regex: ^2\.6\..*$
+product-version-regex: ^2\.7\..*$
 stemcell-iaas: vsphere
 
