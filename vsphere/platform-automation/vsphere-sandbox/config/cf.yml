@@ -82,8 +82,6 @@ product-properties:
     value: 120
   .properties.cf_networking_enable_space_developer_self_service:
     value: false
-  .properties.cf_networking_internal_domain:
-    value: apps.internal
   .properties.cloud_controller_completed_tasks_cutoff_age_in_days:
     value: 31
   .properties.cloud_controller_default_health_check_timeout:
@@ -106,13 +104,12 @@ product-properties:
   .properties.credhub_hsm_provider_partition_password:
     value:
       secret:
-  .properties.credhub_key_encryption_passwords:
+  .properties.credhub_internal_provider_keys:
     value:
     - key:
         secret: ((credhub_encryption_key))
-      name: main
+      name: internal
       primary: true
-      provider: internal
   .properties.diego_database_max_open_connections:
     value: 100
   .properties.diego_log_timestamp_format:
@@ -210,8 +207,6 @@ product-properties:
   .properties.router_keepalive_connections:
     selected_option: enable
     value: enable
-  .properties.router_prune_all_stale_routes:
-    value: false
   .properties.routing_disable_http:
     value: false
   .properties.routing_log_client_ips:
@@ -242,11 +237,7 @@ product-properties:
       password:
   .properties.smtp_enable_starttls_auto:
     value: false
-  .properties.syslog_agent_enabled:
-    value: false
   .properties.syslog_drop_debug:
-    value: true
-  .properties.syslog_metrics_to_syslog_enabled:
     value: true
   .properties.syslog_tls:
     selected_option: disabled
@@ -416,4 +407,3 @@ errand-config:
     post-deploy-state: true
   test-autoscaling:
     post-deploy-state: false
-
