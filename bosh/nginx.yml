@@ -7,7 +7,7 @@ releases:
 stemcells:
 - alias: default
   os: ubuntu-xenial
-  version: "621.26"
+  version: "621.55"
 
 instance_groups:
 - name: nginx
