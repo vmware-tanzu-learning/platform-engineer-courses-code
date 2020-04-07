@@ -7,5 +7,4 @@ bosh deploy --deployment concourse concourse.yml \
   --ops-file operations/tls.yml \
   --ops-file operations/tls-vars.yml \
   --ops-file operations/web-network-extension.yml \
-  --ops-file operations/scale.yml \
-  --ops-file operations/worker-ephemeral-disk.yml
+  --ops-file operations/scale.yml

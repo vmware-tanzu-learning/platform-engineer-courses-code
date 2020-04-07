@@ -1,11 +1,12 @@
 ---
 deployment_name: concourse
 
+azs: [z1, z2, z3]
 network_name: private
-web_vm_type: default
-db_vm_type: default
-worker_vm_type: default
-db_persistent_disk_type: 1GB
+web_vm_type: default-larger-root-disk
+db_vm_type: default-larger-root-disk
+worker_vm_type: default-larger-root-disk
+db_persistent_disk_type: 10GB
 
 external_url: https://IP_ADDR
 external_host: IP_ADDR
@@ -20,4 +21,3 @@ local_user:
 web_network_vm_extension: lb
 web_network_name: private
 
-worker_ephemeral_disk: 50GB_ephemeral_disk
