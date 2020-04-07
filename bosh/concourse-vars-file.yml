@@ -4,7 +4,7 @@ deployment_name: concourse
 azs: [z1, z2, z3]
 network_name: private
 web_vm_type: default-larger-root-disk
-db_vm_type: default-larger-root-disk
+db_vm_type: default
 worker_vm_type: default-larger-root-disk
 db_persistent_disk_type: 10GB
 
