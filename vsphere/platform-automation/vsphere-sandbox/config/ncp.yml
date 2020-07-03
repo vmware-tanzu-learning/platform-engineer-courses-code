@@ -4,6 +4,8 @@ product-properties:
     value:
     - cidr: null
       name: PAS-Org-IPs
+  .properties.enable_inventory:
+    value: true
   .properties.enable_snat:
     value: true
   .properties.exit_on_disconnection:
@@ -17,8 +19,12 @@ product-properties:
     value: sandbox
   .properties.log_dropped_traffic:
     value: false
+  .properties.master_timeout:
+    value: 18
   .properties.ncp_debug_log:
     value: false
+  .properties.nsx_api_ca_cert:
+    value: ((nsx_ca_cert.certificate))
   .properties.nsx_api_managers:
     value: nsxmgr-01.haas-((haas_num)).pez.pivotal.io
   .properties.nsx_auth:
