@@ -28,7 +28,6 @@ resource "nsxt_lb_pool" "minio_lb_pool" {
       target_id   = "${nsxt_ns_group.minio_ns_group.id}"
     }
   }
-
 }
 
 resource "nsxt_lb_fast_tcp_application_profile" "minio_fast_tcp_profile" {

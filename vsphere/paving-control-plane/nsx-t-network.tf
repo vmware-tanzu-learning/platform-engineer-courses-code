@@ -26,7 +26,6 @@ resource "nsxt_nat_rule" "control-plane-snat" {
 
   match_source_network = "${var.control_plane_cidr}"
   translated_network   = "${var.control_plane_snat_ip}"
-
 }
 
 resource "nsxt_logical_switch" "control-plane" {
@@ -37,7 +36,6 @@ resource "nsxt_logical_switch" "control-plane" {
 
   description      = "Control Plane Logical Switch provisioned by Terraform"
   replication_mode = "MTEP"
-
 }
 
 #### The logical port for the control plane network.
@@ -47,7 +45,6 @@ resource "nsxt_logical_port" "control-plane-port" {
   admin_state       = "UP"
   description       = "Control Plane Logical Port provisioned by Terraform"
   logical_switch_id = "${nsxt_logical_switch.control-plane.id}"
-
 }
 
 #### The downlink port connecting the control plane logical port to the tier1 router.
@@ -71,7 +68,6 @@ resource "nsxt_logical_tier1_router" "T1-Router-control-plane" {
   advertise_connected_routes  = true
   advertise_lb_vip_routes     = true
   advertise_lb_snat_ip_routes = true
-
 }
 
 resource "nsxt_logical_router_link_port_on_tier0" "t0-to-control-plane-t1" {
@@ -79,7 +75,6 @@ resource "nsxt_logical_router_link_port_on_tier0" "t0-to-control-plane-t1" {
 
   description       = "Link Port on Logical Tier 0 Router connecting to Control Plane Tier 1 Router. Provisioned by Terraform."
   logical_router_id = "${data.nsxt_logical_tier0_router.rtr0.id}"
-
 }
 
 resource "nsxt_logical_router_link_port_on_tier1" "control-plane-t1-to-t0" {
@@ -88,5 +83,4 @@ resource "nsxt_logical_router_link_port_on_tier1" "control-plane-t1-to-t0" {
   description                   = "Link Port on Control Plane 1 Router connecting to Logical Tier 0 Router. Provisioned by Terraform."
   logical_router_id             = "${nsxt_logical_tier1_router.T1-Router-control-plane.id}"
   linked_logical_router_port_id = "${nsxt_logical_router_link_port_on_tier0.t0-to-control-plane-t1.id}"
-
 }
