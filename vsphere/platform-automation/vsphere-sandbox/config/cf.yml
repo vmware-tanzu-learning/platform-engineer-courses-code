@@ -324,7 +324,7 @@ product-properties:
       secret:
 network-properties:
   network:
-    name: pas
+    name: PAS-Deployment
   other_availability_zones:
   - name: AZ1
   - name: AZ2
