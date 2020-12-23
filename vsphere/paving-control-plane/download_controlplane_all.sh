@@ -5,7 +5,7 @@ if [ -z "$PIVNET_TOKEN" ]; then
     exit 1
 fi
 ops_manager_version=2.10.4
-platform_automation_version=4.4.3
+platform_automation_version=5.0.11
 minio_version=1.0.12
 minio_stemcell_version=621.94
 files_directory=~/workspace/products
