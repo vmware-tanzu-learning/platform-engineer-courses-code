@@ -1,7 +1,14 @@
-provider "nsxt" {
-  username = "${var.nsxt_username}"
-  password = "${var.nsxt_password}"
-  host     = "${var.nsxt_host}"
+terraform {
+  required_providers {
+    nsxt = {
+      source = "vmware/nsxt"
+    }
+  }
+}
 
-  allow_unverified_ssl = "${var.allow_unverified_ssl}"
+provider "nsxt" {
+  host                 = var.nsxt_host
+  username             = var.nsxt_username
+  password             = var.nsxt_password
+  allow_unverified_ssl = var.allow_unverified_ssl
 }
