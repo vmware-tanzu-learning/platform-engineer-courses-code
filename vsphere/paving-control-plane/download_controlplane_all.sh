@@ -22,8 +22,8 @@ else
 fi
 
 echo "Attempting to download Platform Automation Image version $platform_automation_version"
-if [ ! -s ${files_directory}/platform-automation-image-${platform_automation_version}.tgz ]; then
-    pivnet download-product-files -p platform-automation -r ${platform_automation_version} -g *platform-automation-image* -d ${files_directory}
+if [ ! -s ${files_directory}/vsphere-platform-automation-image-${platform_automation_version}.tgz ]; then
+    pivnet download-product-files -p platform-automation -r ${platform_automation_version} -g *vsphere-platform-automation-image* -d ${files_directory}
 else
   echo "Platform Automation Image version $platform_automation_version already exists"
 fi    
