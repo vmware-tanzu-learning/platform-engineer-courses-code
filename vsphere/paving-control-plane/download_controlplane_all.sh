@@ -5,9 +5,7 @@ if [ -z "$PIVNET_TOKEN" ]; then
     exit 1
 fi
 ops_manager_version=2.10.4
-platform_automation_version=5.0.11
-minio_version=1.0.12
-minio_stemcell_version=621.94
+platform_automation_version=5.0.12
 files_directory=~/workspace/products
 
 mkdir -p ${files_directory}
@@ -27,18 +25,4 @@ if [ ! -s ${files_directory}/vsphere-platform-automation-image-${platform_automa
 else
   echo "Platform Automation Image version $platform_automation_version already exists"
 fi    
-
-echo "Attempting to download Minio tile version $minio_version"
-if [ ! -s ${files_directory}/minio-internal-blobstore-${minio_version}*.pivotal ]; then
-    pivnet download-product-files -p minio-internal-blobstore -r ${minio_version} -g "*.pivotal" -d ${files_directory}
-else
-  echo "Minio tile version $minio_version already exists"
-fi
-
-echo "Attempting to download Stemcell version $minio_stemcell_version"
-if [ ! -s ${files_directory}/bosh-stemcell-${minio_stemcell_version}-*.tgz ]; then
-    pivnet download-product-files -p stemcells-ubuntu-xenial -r ${minio_stemcell_version} -g *vsphere* -d ${files_directory}
-else
-  echo "Stemcell version $minio_stemcell_version already exists"
-fi
 
