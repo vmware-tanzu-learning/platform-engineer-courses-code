@@ -65,8 +65,3 @@ variable "concourse_vip_server" {
   type        = string
 }
 
-variable "minio_vip_server" {
-  default     = ""
-  description = "IP Address for minio loadbalancer"
-  type        = string
-}
