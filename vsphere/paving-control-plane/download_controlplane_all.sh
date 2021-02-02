@@ -4,8 +4,11 @@ if [ -z "$PIVNET_TOKEN" ]; then
     echo "Must provide pivnet api token as environment variable PIVNET_TOKEN"
     exit 1
 fi
-ops_manager_version=2.10.4
+
+ops_manager_version=2.10.6
 platform_automation_version=5.0.12
+concourse_stemcell_version=621.99
+
 files_directory=~/workspace/products
 
 mkdir -p ${files_directory}
@@ -25,4 +28,12 @@ if [ ! -s ${files_directory}/vsphere-platform-automation-image-${platform_automa
 else
   echo "Platform Automation Image version $platform_automation_version already exists"
 fi    
+
+echo "Attempting to download Stemcell version $concourse_stemcell_version"
+if [ ! -s ${files_directory}/bosh-stemcell-${concourse_stemcell_version}-*.tgz ]; then
+    pivnet download-product-files -p stemcells-ubuntu-xenial -r ${concourse_stemcell_version} -g *vsphere* -d ${files_directory}
+else
+  echo "Stemcell version $concourse_stemcell_version already exists"
+fi
+
 
