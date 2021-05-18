@@ -1,0 +1,51 @@
+name: nginx
+
+releases:
+- name: nginx
+  version: "1.19.0"
+
+stemcells:
+- alias: default
+  os: ubuntu-xenial
+  version: "621.125"
+
+instance_groups:
+- name: nginx
+  instances: 1
+  azs: [default-az]
+  vm_type: small
+  stemcell: default
+  networks:
+  - name: infrastructure
+  jobs:
+  - name: nginx
+    release: nginx
+    properties:
+      nginx_conf: |
+        user nobody vcap; # group vcap can read /var/vcap/store
+        events {
+          worker_connections  1024;
+        }
+        http {
+          server {
+            access_log /var/vcap/sys/log/nginx/nginx-access.log;
+            error_log /var/vcap/sys/log/nginx/nginx-error.log;
+          }
+          root /var/vcap/store/nginx;
+          index index.html;
+        }
+      pre_start: |
+        #!/bin/bash -ex
+        NGINX_DIR=/var/vcap/store/nginx
+        if [ ! -d $NGINX_DIR ]; then
+          mkdir -p $NGINX_DIR
+          cd $NGINX_DIR
+          echo  '<html><body><p>Hello World</p></body></html>' > index.html
+        fi
+
+update:
+  canaries: 1
+  max_in_flight: 10
+  serial: false
+  canary_watch_time: 1000-30000
+  update_watch_time: 1000-30000
