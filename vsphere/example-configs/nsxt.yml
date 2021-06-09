@@ -1,0 +1,73 @@
+product-name: VMware-NSX-T
+product-properties:
+  .properties.container_ip_blocks:
+    value:
+    - cidr: null
+      name: sandbox-pas-container-ip-block
+  .properties.default_running_asg_use_ip_set:
+    value: false
+  .properties.enable_inventory:
+    value: true
+  .properties.enable_snat:
+    value: true
+  .properties.exit_on_disconnection:
+    selected_option: enable
+    value: enable
+  .properties.external_ip_pools:
+    value:
+    - allocation_ranges: null
+      cidr: null
+      name: sandbox-external-ip-pool
+  .properties.foundation_name:
+    value: sandbox
+  .properties.log_firewall_rules:
+    selected_option: disable
+    value: disable
+  .properties.master_timeout:
+    value: 18
+  .properties.ncp_debug_log:
+    value: false
+  .properties.nsx_api_ca_cert:
+    value: |
+      -----BEGIN CERTIFICATE-----
+      MIIDcDCCAligAwIBAgIGAXmoQ1dZMA0GCSqGSIb3DQEBCwUAMHkxIjAgBgNVBAMM
+      GXNhLW5zeG1nci0wMS52Y2xhc3MubG9jYWwxDzANBgNVBAoMBlZNd2FyZTEMMAoG
+      A1UECwwDTlNYMRIwEAYDVQQHDAlQYWxvIEFsdG8xEzARBgNVBAgMCkNhbGlmb3Ju
+      aWExCzAJBgNVBAYTAlVTMB4XDTIxMDUyNjEwNDA1NloXDTMxMDUyNDEwNDA1Nlow
+      eTEiMCAGA1UEAwwZc2EtbnN4bWdyLTAxLnZjbGFzcy5sb2NhbDEPMA0GA1UECgwG
+      Vk13YXJlMQwwCgYDVQQLDANOU1gxEjAQBgNVBAcMCVBhbG8gQWx0bzETMBEGA1UE
+      CAwKQ2FsaWZvcm5pYTELMAkGA1UEBhMCVVMwggEiMA0GCSqGSIb3DQEBAQUAA4IB
+      DwAwggEKAoIBAQDrUsa5wdoGTSils/wnbllhA82LfERr5VKrEn5BDaNsLdVbGpaa
+      C6MgMg3HlxijvA+atFSXpZCuJPah9O0gUkKn/0mJOuSR3LMU/rkcbLqDiOxJ0FmE
+      EL665iQz6Yrl3yncqAEk6OsaGucnhOy51N5aEieow3QTLymQAtiCmTmLABfcPYkI
+      SxB5Nk4lKbG5FKBpIwW7sGRQTWJg5Ts0UCxBPmxq/jj77Q6/aCLlfU55XSYJPQbM
+      rliYIyRzw1onS5bWugxR832n6+RmYSstk7njMfTQwqOkN4ZNB/b+q6rnEJiom5Bs
+      XtCUBssUv7X3DMtFjat2Jr1J6iivNsgU82kpAgMBAAEwDQYJKoZIhvcNAQELBQAD
+      ggEBAGqbienFyXUaTTkVH8KFXFallF9Ghs2LcDvl02+tMT6HrOnI2NBMK7A4owhZ
+      Hjn5zxGoHAXSca4iVlx5eU4uLQm/Hc1lYcb7rSxg1HXoFk+vSLQVK7Cqux+otp4k
+      gWkjvsG2FiSFmOrCQfMJ5zNk+vQlKeMYym/zr5XTygfDrHKJRX0M/sLDQV0B2lZ8
+      56VJma3dfPQknGDLZFvGiwIxTs9DSdhwGFL6seNmVbdDv45ig6FONc5zcexpO0is
+      rK4SLTWtjDvtICrOwM5bPG+L2SWB9nA8vabvpUDBAitM2ycXMCIGBTuoC2PN7+g+
+      InHqerYGLZPWFuWkNM+X6YANCeI=
+      -----END CERTIFICATE-----
+  .properties.nsx_api_managers:
+    value: sa-nsxmgr-01.vclass.local
+  .properties.nsx_auth:
+    selected_option: simple
+    value: simple
+  .properties.nsx_auth.simple.nsx_api_password:
+    value:
+      secret: VMware1!VMware1!
+  .properties.nsx_auth.simple.nsx_api_user:
+    value: admin
+  .properties.nsx_node_agent_debug_log:
+    value: false
+  .properties.snat_rule_logging:
+    selected_option: none
+    value: none
+  .properties.subnet_prefix:
+    value: 24
+  .properties.tier0_router:
+    value: T0-Router
+  .properties.wait_for_security_policy_sync:
+    value: false

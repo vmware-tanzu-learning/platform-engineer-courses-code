@@ -1,0 +1,161 @@
+az-configuration:
+- name: default
+  iaas_configuration_name: default
+  clusters:
+  - cluster: SA-Compute-01
+    drs_rule: MUST
+    host_group: null
+    resource_pool: sandbox
+iaas-configurations:
+- additional_cloud_properties: {}
+  bosh_disk_path: pcf_disk
+  bosh_template_folder: pcf_templates
+  bosh_vm_folder: pcf_vms
+  datacenter: SA-Datacenter
+  disk_type: thin
+  ephemeral_datastores_string: SA-iSCSI-01, SA-iSCSI-02
+  name: default
+  nsx_address: sa-nsxmgr-01.vclass.local
+  nsx_ca_certificate: |
+    -----BEGIN CERTIFICATE-----
+    MIIDcDCCAligAwIBAgIGAXmoQ1dZMA0GCSqGSIb3DQEBCwUAMHkxIjAgBgNVBAMM
+    GXNhLW5zeG1nci0wMS52Y2xhc3MubG9jYWwxDzANBgNVBAoMBlZNd2FyZTEMMAoG
+    A1UECwwDTlNYMRIwEAYDVQQHDAlQYWxvIEFsdG8xEzARBgNVBAgMCkNhbGlmb3Ju
+    aWExCzAJBgNVBAYTAlVTMB4XDTIxMDUyNjEwNDA1NloXDTMxMDUyNDEwNDA1Nlow
+    eTEiMCAGA1UEAwwZc2EtbnN4bWdyLTAxLnZjbGFzcy5sb2NhbDEPMA0GA1UECgwG
+    Vk13YXJlMQwwCgYDVQQLDANOU1gxEjAQBgNVBAcMCVBhbG8gQWx0bzETMBEGA1UE
+    CAwKQ2FsaWZvcm5pYTELMAkGA1UEBhMCVVMwggEiMA0GCSqGSIb3DQEBAQUAA4IB
+    DwAwggEKAoIBAQDrUsa5wdoGTSils/wnbllhA82LfERr5VKrEn5BDaNsLdVbGpaa
+    C6MgMg3HlxijvA+atFSXpZCuJPah9O0gUkKn/0mJOuSR3LMU/rkcbLqDiOxJ0FmE
+    EL665iQz6Yrl3yncqAEk6OsaGucnhOy51N5aEieow3QTLymQAtiCmTmLABfcPYkI
+    SxB5Nk4lKbG5FKBpIwW7sGRQTWJg5Ts0UCxBPmxq/jj77Q6/aCLlfU55XSYJPQbM
+    rliYIyRzw1onS5bWugxR832n6+RmYSstk7njMfTQwqOkN4ZNB/b+q6rnEJiom5Bs
+    XtCUBssUv7X3DMtFjat2Jr1J6iivNsgU82kpAgMBAAEwDQYJKoZIhvcNAQELBQAD
+    ggEBAGqbienFyXUaTTkVH8KFXFallF9Ghs2LcDvl02+tMT6HrOnI2NBMK7A4owhZ
+    Hjn5zxGoHAXSca4iVlx5eU4uLQm/Hc1lYcb7rSxg1HXoFk+vSLQVK7Cqux+otp4k
+    gWkjvsG2FiSFmOrCQfMJ5zNk+vQlKeMYym/zr5XTygfDrHKJRX0M/sLDQV0B2lZ8
+    56VJma3dfPQknGDLZFvGiwIxTs9DSdhwGFL6seNmVbdDv45ig6FONc5zcexpO0is
+    rK4SLTWtjDvtICrOwM5bPG+L2SWB9nA8vabvpUDBAitM2ycXMCIGBTuoC2PN7+g+
+    InHqerYGLZPWFuWkNM+X6YANCeI=
+    -----END CERTIFICATE-----
+  nsx_mode: nsx-t
+  nsx_networking_enabled: true
+  nsx_password: VMware1!VMware1!
+  nsx_t_auth_type: local_user
+  nsx_t_use_policy_api: false
+  nsx_username: admin
+  persistent_datastores_string: SA-iSCSI-01, SA-iSCSI-02
+  ssl_verification_enabled: false
+  vcenter_host: sa-vcsa-01.vclass.local
+  vcenter_password: VMware1!
+  vcenter_username: administrator@vsphere.local
+network-assignment:
+  network:
+    name: infrastructure
+  other_availability_zones: []
+  singleton_availability_zone:
+    name: default
+networks-configuration:
+  icmp_checks_enabled: false
+  networks:
+  - name: infrastructure
+    subnets:
+    - iaas_identifier: sandbox-PAS-Infrastructure
+      cidr: 192.168.1.0/24
+      dns: 172.20.10.10
+      gateway: 192.168.1.1
+      reserved_ip_ranges: 192.168.1.1-192.168.1.10
+      availability_zone_names:
+      - default
+  - name: pas
+    subnets:
+    - iaas_identifier: sandbox-PAS-Deployment
+      cidr: 192.168.2.0/24
+      dns: 172.20.10.10
+      gateway: 192.168.2.1
+      reserved_ip_ranges: ""
+      availability_zone_names:
+      - default
+  - name: services
+    subnets:
+    - iaas_identifier: sandbox-PAS-Services
+      cidr: 192.168.3.0/24
+      dns: 172.20.10.10
+      gateway: 192.168.3.1
+      reserved_ip_ranges: ""
+      availability_zone_names:
+      - default
+properties-configuration:
+  director_configuration:
+    blobstore_type: local
+    bosh_director_recreate_on_next_deploy: false
+    bosh_recreate_on_next_deploy: false
+    bosh_recreate_persistent_disks_on_next_deploy: false
+    database_type: internal
+    director_metrics_server_enabled: true
+    director_worker_count: 5
+    encryption:
+      keys: []
+      providers: []
+    hm_emailer_options:
+      enabled: false
+    hm_pager_duty_options:
+      enabled: false
+    identification_tags: {}
+    job_configuration_on_tmpfs: false
+    keep_unreachable_vms: false
+    local_blobstore_options:
+      enable_signed_urls: true
+    metrics_server_enabled: true
+    ntp_servers_string: 172.20.10.10
+    post_deploy_enabled: true
+    resurrector_enabled: true
+    retry_bosh_deploys: false
+    skip_director_drain: false
+    system_metrics_runtime_enabled: true
+  dns_configuration:
+    excluded_recursors: []
+    handlers: []
+  security_configuration:
+    generate_vm_passwords: true
+    opsmanager_root_ca_trusted_certs: false
+    trusted_certificates: |
+      -----BEGIN CERTIFICATE-----
+      ... Replace this section with the contents of your
+      ... Root CA certificate
+      -----END CERTIFICATE-----
+  syslog_configuration:
+    enabled: false
+resource-configuration:
+  compilation:
+    additional_networks: []
+    additional_vm_extensions: []
+    instance_type:
+      id: automatic
+    instances: 8
+    nsx:
+      lbs: []
+      security_groups: []
+    nsxt:
+      lb:
+        server_pools: []
+      ns_groups: []
+    swap_as_percent_of_memory_size: automatic
+  director:
+    additional_networks: []
+    additional_vm_extensions: []
+    instance_type:
+      id: automatic
+    instances: automatic
+    nsx:
+      lbs: []
+      security_groups: []
+    nsxt:
+      lb:
+        server_pools: []
+      ns_groups: []
+    persistent_disk:
+      size_mb: automatic
+    swap_as_percent_of_memory_size: automatic
+vmextensions-configuration: []
+vmtypes-configuration: {}
