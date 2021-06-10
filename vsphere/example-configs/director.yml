@@ -118,7 +118,7 @@ properties-configuration:
     handlers: []
   security_configuration:
     generate_vm_passwords: true
-    opsmanager_root_ca_trusted_certs: false
+    opsmanager_root_ca_trusted_certs: true
     trusted_certificates: |
       -----BEGIN CERTIFICATE-----
       ... Replace this section with the contents of your
