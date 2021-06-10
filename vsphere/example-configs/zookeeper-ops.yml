@@ -1,0 +1,20 @@
+---
+- type: replace
+  path: /instance_groups/0/azs
+  value: [default]
+- type: replace
+  path: /instance_groups/0/vm_type
+  value: small
+- type: replace
+  path: /instance_groups/0/networks
+  value: [{ name: infrastructure }]
+
+- type: replace
+  path: /instance_groups/1/azs
+  value: [default]
+- type: replace
+  path: /instance_groups/1/vm_type
+  value: small
+- type: replace
+  path: /instance_groups/1/networks
+  value: [{ name: infrastructure }]
