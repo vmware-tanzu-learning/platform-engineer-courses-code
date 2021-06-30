@@ -12,7 +12,7 @@ stemcells:
 instance_groups:
 - name: nginx
   instances: 1
-  azs: [default-az]
+  azs: [default]
   vm_type: small
   stemcell: default
   networks:
