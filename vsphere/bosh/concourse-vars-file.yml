@@ -1,0 +1,23 @@
+---
+deployment_name: concourse
+
+azs: [default]
+network_name: infrastructure
+web_vm_type: small.disk
+db_vm_type: small
+worker_vm_type: small.disk
+db_persistent_disk_type: "10240"
+
+external_url: https://10.20.20.40
+external_host: 10.20.20.40
+
+web_instances: 1
+worker_instances: 2
+
+local_user:
+  username: admin
+  password: "VMware1!"
+
+web_network_vm_extension: concourse_lb
+web_network_name: infrastructure
+
